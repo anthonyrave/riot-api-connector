@@ -1,0 +1,36 @@
+{
+    "name": "anthonyrave/riot-api-connector",
+    "description": "Riot games API tool",
+    "keywords": ["laravel", "API", "Riot games", "League of legends"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://gitlab.com/anthonyrave/lol-most-played-crew/-/issues",
+        "source": "https://gitlab.com/anthonyrave/lol-most-played-crew"
+    },
+    "authors": [
+        {
+            "name": "Anthony Rave",
+            "email": "anthony.rave@icloud.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Anthonyrave\\RiotApiConnector\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Anthonyrave\\RiotApiConnector\\RiotApiConnectorServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
