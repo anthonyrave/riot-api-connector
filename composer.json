@@ -4,8 +4,8 @@
     "keywords": ["laravel", "API", "Riot games", "League of legends"],
     "license": "MIT",
     "support": {
-        "issues": "https://gitlab.com/anthonyrave/lol-most-played-crew/-/issues",
-        "source": "https://gitlab.com/anthonyrave/lol-most-played-crew"
+        "issues": "https://gitlab.com/anthonyrave/riot-api-connector/-/issues",
+        "source": "https://gitlab.com/anthonyrave/riot-api-connector"
     },
     "authors": [
         {
