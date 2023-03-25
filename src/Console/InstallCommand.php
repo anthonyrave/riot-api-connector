@@ -2,6 +2,7 @@
 
 namespace Anthonyrave\RiotApiConnector\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 
 class InstallCommand extends Command
@@ -28,6 +29,23 @@ class InstallCommand extends Command
     public function handle(): void
     {
         $this->callSilent('vendor:publish', ['--tag' => 'riot-api-connector-config', '--force' => true]);
+        $this->addEnvVariable();
         $this->info('Riot API connector\'s configurations installed successfully.');
+    }
+
+    /**
+     * @return void
+     */
+    protected function addEnvVariable(): void
+    {
+        $envFiles = ['.env', '.env.example'];
+
+        foreach ($envFiles as $envFile) {
+            $env = file_get_contents($this->laravel->basePath($envFile));
+            if(!str_contains($env, 'RIOT_API_KEY=')) {
+                $env .= "\nRIOT_API_KEY=\n";
+                file_put_contents($this->laravel->basePath($envFile), $env);
+            }
+        }
     }
 }
