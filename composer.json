@@ -1,5 +1,6 @@
 {
     "name": "anthonyrave/riot-api-connector",
+    "version": "v0.1.0-alpha",
     "description": "Riot games API tool",
     "keywords": ["laravel", "API", "Riot games", "League of legends"],
     "license": "MIT",

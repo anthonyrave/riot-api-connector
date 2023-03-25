@@ -26,14 +26,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | LoL API prefix
+    | LoL API information
     |--------------------------------------------------------------------------
     |
-    | LoL API prefix
+    | LoL API information
     |
     */
 
-    'lol_prefix' => '/lol',
+    'lol' => [
+        'prefix' => '/lol',
+        'routes' => [
+            'summoner' => [
+                'prefix' => '/summoner/v4/summoners',
+            ],
+            'champion_mastery' => [
+                'prefix' => '/champion-mastery/v4/champion-masteries',
+            ],
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
