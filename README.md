@@ -13,4 +13,4 @@ enjoyers to create applications based on [Riot's API](https://developer.riotgame
 
 ## License
 
-Riot API Connector is open-sourced software licensed under the [MIT license](LICENSE.md).
+Riot API Connector is open-sourced software licensed under the [MIT license](LICENSE).
