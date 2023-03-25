@@ -58,7 +58,6 @@ return [
         'BR1',
         'EUN1',
         'EUW1',
-        'EUW1',
         'JP1',
         'KR',
         'LA1',
