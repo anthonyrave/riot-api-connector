@@ -4,44 +4,58 @@ namespace Anthonyrave\RiotApiConnector\Http;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
 
 class RiotApi
 {
     /**
-     * @param string $uri
+     * @param string $url
      * @param string $server
-     * @return ResponseInterface
+     * @return array
      * @throws GuzzleException
      */
-    public static function get(string $uri, string $server): ResponseInterface
+    public static function get(string $url, string $server): array
     {
-        return static::call('GET', $uri, $server);
+        return static::call('GET', $url, $server);
     }
 
     /**
-     * @param string $uri
+     * @param string $url
      * @param string $server
-     * @return ResponseInterface
+     * @return array
      * @throws GuzzleException
      */
-    public static function post(string $uri, string $server): ResponseInterface
+    public static function post(string $url, string $server): array
     {
-        return static::call('POST', $uri, $server);
+        return static::call('POST', $url, $server);
     }
 
     /**
      * @param string $method
-     * @param string $uri
+     * @param string $url
      * @param string|null $server
-     * @return ResponseInterface
+     * @return array
      * @throws GuzzleException
      */
-    private static function call(string $method, string $uri, string $server = null): ResponseInterface
+    private static function call(string $method, string $url, string $server = null): array
     {
+        $config = config('riot-api-connector');
+
+        if ($server) {
+            $base_uri = 'https://' . $server . '.' . $config['base_uri'];
+        } else {
+            $base_uri = 'https://' . $config['base_uri'];
+        }
+
         $client = new Client([
-            'base_uri' => 'https://' . $server ? $server . '.' : '' . config('riot-api-connector.base_uri'),
+            'base_uri' => $base_uri,
         ]);
-        return $client->request($method, $uri);
+
+        $response = $client->request($method, $url, [
+            'headers' => [
+                'X-Riot-Token' => $config['api_key'],
+            ],
+        ]);
+
+        return json_decode($response->getBody(), true);
     }
 }
