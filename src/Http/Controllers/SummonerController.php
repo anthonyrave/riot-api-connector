@@ -10,15 +10,12 @@ use Illuminate\Routing\Controller;
 class SummonerController extends Controller
 {
     /**
-     * @param string $serverName
-     * @param string $summonerName
-     * @return JsonResponse
      * @throws GuzzleException
      */
     public function show(string $serverName, string $summonerName): JsonResponse
     {
         $response = RiotApi::get(
-            '/lol/summoner/v4/summoners/by-name/' . $summonerName,
+            '/lol/summoner/v4/summoners/by-name/'.$summonerName,
             $serverName
         );
 

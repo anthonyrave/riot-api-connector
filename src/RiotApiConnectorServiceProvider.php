@@ -8,19 +8,13 @@ use Illuminate\Support\ServiceProvider;
 
 class RiotApiConnectorServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
     public function register(): void
     {
-        if (!app()->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__ . '/../config/riot-api-connector.php', 'riot-api-connector');
+        if (! app()->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__.'/../config/riot-api-connector.php', 'riot-api-connector');
         }
     }
 
-    /**
-     * @return void
-     */
     public function boot(): void
     {
         $this->configureRoutes();
@@ -34,8 +28,6 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
 
     /**
      * Configure the routes offered by the application.
-     *
-     * @return void
      */
     protected function configureRoutes(): void
     {
@@ -44,7 +36,7 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
             'domain' => config('riot-api-connector.domain', null),
             'prefix' => config('riot-api-connector.prefix', 'riot'),
         ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
         });
     }
 }
