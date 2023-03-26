@@ -2,7 +2,6 @@
 
 namespace Anthonyrave\RiotApiConnector\Console;
 
-use Exception;
 use Illuminate\Console\Command;
 
 class InstallCommand extends Command

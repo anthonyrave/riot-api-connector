@@ -8,8 +8,6 @@ use Illuminate\Support\ServiceProvider;
 class RiotApiConnectorServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     *
      * @return void
      */
     public function register(): void
@@ -20,8 +18,6 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
-     *
      * @return void
      */
     public function boot(): void
