@@ -1,8 +1,8 @@
 {
     "name": "anthonyrave/riot-api-connector",
     "version": "v0.2.0",
-    "description": "Riot games API tool",
-    "keywords": ["laravel", "API", "Riot games", "League of legends"],
+    "description": "A Laravel package to play with Riot Games' API.",
+    "keywords": ["Laravel", "API", "Riot Games", "League Of Legends"],
     "license": "MIT",
     "support": {
         "issues": "https://gitlab.com/anthonyrave/riot-api-connector/-/issues",
