@@ -4,24 +4,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Champions
+    | Data Dragon Data
     |--------------------------------------------------------------------------
     |
-    | Url to get all champions data
+    | List of URLs to retrieve data of the different elements
     |
     */
 
-    'champions' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/champion.json',
+    'data' => [
+        'champions' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/champion.json',
+        'items' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/item.json',
+    ],
 
     /*
     |--------------------------------------------------------------------------
-    | Items
+    | Data Dragon Images
     |--------------------------------------------------------------------------
     |
-    | Url to get all items data
+    | List of URLS where you can find images
     |
     */
 
-    'items' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/item.json',
+    'images' => [
+        'summonerIcon' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/img/profileicon/{id}.png',
+    ],
 
 ];

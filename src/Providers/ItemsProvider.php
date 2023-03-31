@@ -8,7 +8,7 @@ class ItemsProvider extends AbstractProvider implements DataDragonProvider
 {
     protected function getUrl(): string
     {
-        return config('data-dragon.items');
+        return config('data-dragon.data.items');
     }
 
     protected function mapDataToModels(array $data)

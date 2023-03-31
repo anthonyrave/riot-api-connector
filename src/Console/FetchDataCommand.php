@@ -17,7 +17,7 @@ class FetchDataCommand extends Command
     /**
      * @var string
      */
-    protected $description = 'Fetches the data with DataDragon for the specified data types (only champions for the moment).';
+    protected $description = 'Fetches the data with DataDragon for the specified data types.';
 
     public function handle(): void
     {

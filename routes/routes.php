@@ -7,16 +7,8 @@ use RiotApiConnector\Http\Resources\ChampionResource;
 use RiotApiConnector\Models\Champion;
 
 Route::prefix('/{serverName}')->group(function () {
-    Route::prefix('/summoners')->group(function () {
-        Route::get('/{summonerName}', [SummonerController::class, 'show']);
-    });
-    Route::prefix('/champion-masteries')->group(function () {
-        Route::prefix('/{summonerId}')->group(function () {
-            Route::get('/top/{count?}', [ChampionMasteryController::class, 'showTop']);
-        });
-    });
+    Route::get('/summoners/{summonerName}', [SummonerController::class, 'show']);
+    Route::get('/champion-masteries/{summonerId}/top/{count?}', [ChampionMasteryController::class, 'showTop']);
 });
 
-Route::prefix('/champions')->group(function () {
-    Route::get('/', fn () => ChampionResource::collection(Champion::all()));
-});
+Route::get('/champions', fn () => ChampionResource::collection(Champion::all()));

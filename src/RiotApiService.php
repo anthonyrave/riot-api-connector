@@ -27,8 +27,6 @@ class RiotApiService implements RiotApiFactory
 
         return Http::withHeaders([
             'X-Riot-Token' => $this->token,
-        ])
-            ->baseUrl($baseUri)
-            ->withUrlParameters($params);
+        ])->baseUrl($baseUri)->withUrlParameters($params);
     }
 }
