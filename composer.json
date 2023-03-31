@@ -1,6 +1,6 @@
 {
     "name": "anthonyrave/riot-api-connector",
-    "version": "v0.1.0-alpha",
+    "version": "v0.2.0",
     "description": "Riot games API tool",
     "keywords": ["laravel", "API", "Riot games", "League of legends"],
     "license": "MIT",
@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^10.4"
     },
@@ -24,13 +24,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Anthonyrave\\RiotApiConnector\\": "src/"
+            "RiotApiConnector\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Anthonyrave\\RiotApiConnector\\RiotApiConnectorServiceProvider"
+                "RiotApiConnector\\RiotApiConnectorServiceProvider"
             ]
         }
     },

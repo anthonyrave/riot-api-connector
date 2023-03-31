@@ -1,11 +1,11 @@
 <?php
 
-namespace Anthonyrave\RiotApiConnector\Http\Controllers;
+namespace RiotApiConnector\Http\Controllers;
 
-use Anthonyrave\RiotApiConnector\Http\RiotApi;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use RiotApiConnector\Http\RiotApi;
 
 class SummonerController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anthonyrave\RiotApiConnector\Console;
+namespace RiotApiConnector\Console;
 
 use Illuminate\Console\Command;
 
