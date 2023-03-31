@@ -12,3 +12,4 @@ Route::prefix('/{serverName}')->group(function () {
 });
 
 Route::get('/champions', fn () => ChampionResource::collection(Champion::all()));
+Route::get('/champions/{id}', fn (int $id) => new ChampionResource(Champion::findOrFail($id)));
