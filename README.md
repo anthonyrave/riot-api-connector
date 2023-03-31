@@ -1,6 +1,9 @@
 # Riot API Connector
 
 <p align="center">
+    <a href="https://gitlab.com/anthonyrave/riot-api-connector/-/commits/0.2.x">
+        <img alt="pipeline status" src="https://gitlab.com/anthonyrave/riot-api-connector/badges/0.2.x/pipeline.svg" />
+    </a>
     <a href="https://packagist.org/packages/anthonyrave/riot-api-connector">
         <img src="https://img.shields.io/gitlab/license/anthonyrave/riot-api-connector" alt="License">
     </a>
