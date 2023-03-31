@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
 use RiotApiConnector\Contracts\DataDragonFactory;
-use RiotApiConnector\Services\RiotApiService;
+use RiotApiConnector\Contracts\RiotApiFactory;
 
 class RiotApiConnectorServiceProvider extends ServiceProvider
 {
@@ -19,10 +19,10 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
         }
 
         $this->app->singleton(
-            abstract: RiotApiService::class,
+            abstract: RiotApiFactory::class,
             concrete: fn () => new RiotApiService(
-                baseUrl: strval(config('riot-api-connector.url')),
-                apiToken: strval(config('riot-api-connector.token'))
+                baseUri: strval(config('riot-api-connector.url')),
+                token: strval(config('riot-api-connector.token'))
             ),
         );
 
@@ -34,7 +34,10 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
 
     public function provides(): array
     {
-        return [DataDragonFactory::class];
+        return [
+            DataDragonFactory::class,
+            RiotApiFactory::class,
+        ];
     }
 
     public function boot(): void
@@ -51,9 +54,6 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Configure the routes offered by the application.
-     */
     protected function configureRoutes(): void
     {
         Route::group([

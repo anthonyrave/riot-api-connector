@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use RiotApiConnector\Http\Controllers\ChampionController;
 use RiotApiConnector\Http\Controllers\ChampionMasteryController;
 use RiotApiConnector\Http\Controllers\SummonerController;
+use RiotApiConnector\Http\Resources\ChampionResource;
+use RiotApiConnector\Models\Champion;
 
 Route::prefix('/{serverName}')->group(function () {
     Route::prefix('/summoners')->group(function () {
@@ -17,5 +18,5 @@ Route::prefix('/{serverName}')->group(function () {
 });
 
 Route::prefix('/champions')->group(function () {
-    Route::get('/', [ChampionController::class, 'index']);
+    Route::get('/', fn () => ChampionResource::collection(Champion::all()));
 });

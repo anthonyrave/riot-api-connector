@@ -2,25 +2,20 @@
 
 namespace RiotApiConnector\Http\Controllers;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use RiotApiConnector\Http\RiotApi;
+use RiotApiConnector\Facades\RiotApi;
 
 class ChampionMasteryController extends Controller
 {
-    /**
-     * @throws GuzzleException
-     */
-    public function showTop(string $serverName, string $summonerId, int $count = 3): JsonResponse
+    public function showTop(string $serverName, string $summonerId, int $count = null): JsonResponse
     {
         $response = RiotApi::get(
-            '/lol/champion-mastery/v4/champion-masteries/by-summoner/'.$summonerId.'/top',
-            $serverName,
+            '/lol/champion-mastery/v4/champion-masteries/by-summoner/{summoner}/top{?count}',
             [
-                'query' => [
-                    'count' => $count,
-                ],
+                'server' => $serverName,
+                'summoner' => $summonerId,
+                'count' => $count,
             ]
         );
 
