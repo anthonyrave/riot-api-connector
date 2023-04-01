@@ -4,6 +4,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default parameters
+    |--------------------------------------------------------------------------
+    |
+    | Default values to use to retrieve data
+    |
+    */
+
+    'default' => [
+        'lang' => 'en_US',
+        'version' => '13.6.1',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Data Dragon Data
     |--------------------------------------------------------------------------
     |
@@ -12,8 +26,12 @@ return [
     */
 
     'data' => [
-        'champions' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/champion.json',
-        'items' => 'https://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/item.json',
+        'champions' => 'https://ddragon.leagueoflegends.com/cdn/{version}/data/{lang}/champion.json',
+        'champion' => 'https://ddragon.leagueoflegends.com/cdn/{version}/data/{lang}/champion/{champion}.json',
+        'items' => 'https://ddragon.leagueoflegends.com/cdn/{version}/data/{lang}/item.json',
+        'languages' => 'https://ddragon.leagueoflegends.com/cdn/languages.json',
+        'versions' => 'https://ddragon.leagueoflegends.com/api/versions.json',
+        'realms' => 'https://ddragon.leagueoflegends.com/realms/{region}.json',
     ],
 
     /*

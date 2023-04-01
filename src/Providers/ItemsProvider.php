@@ -15,4 +15,9 @@ class ItemsProvider extends AbstractProvider implements DataDragonProvider
     {
         // TODO: Implement mapDataToModel() method.
     }
+
+    protected function getUrlParameters(): array
+    {
+        // TODO: Implement getUrlParameters() method.
+    }
 }

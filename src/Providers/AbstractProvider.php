@@ -16,10 +16,27 @@ abstract class AbstractProvider implements DataDragonProvider
 
     protected function fetch(): array
     {
-        return json_decode(Http::get($this->getUrl()), true);
+        $response = Http::withUrlParameters($this->getUrlParameters())->get($this->getUrl());
+
+        return $response->json();
+    }
+
+    protected function getLastVersion(): string
+    {
+        $response = Http::get(config('data-dragon.data.versions'));
+
+        return $response->json()[0];
     }
 
     abstract protected function mapDataToModels(array $data);
 
     abstract protected function getUrl(): string;
+
+    protected function getUrlParameters(): array
+    {
+        return [
+            'version' => $this->getLastVersion(),
+            'lang' => config('data-dragon.default.lang'),
+        ];
+    }
 }
