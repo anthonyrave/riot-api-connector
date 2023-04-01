@@ -15,30 +15,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Domain
-    |--------------------------------------------------------------------------
-    |
-    | In case you want to use a subdomain for the package routes.
-    | Learn more on https://laravel.com/docs/10.x/routing#route-group-subdomain-routing
-    |
-    */
-
-    'domain' => null,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Prefix
-    |--------------------------------------------------------------------------
-    |
-    | Prefix that will be added before every route offered by the package.
-    | Learn more on https://laravel.com/docs/10.x/routing#route-group-prefixes
-    |
-    */
-
-    'prefix' => 'riot',
-
-    /*
-    |--------------------------------------------------------------------------
     | Url
     |--------------------------------------------------------------------------
     |

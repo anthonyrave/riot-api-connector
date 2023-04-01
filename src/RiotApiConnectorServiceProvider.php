@@ -2,7 +2,6 @@
 
 namespace RiotApiConnector;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
@@ -42,8 +41,6 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->configureRoutes();
-
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         if (app()->runningInConsole()) {
@@ -52,14 +49,5 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
                 FetchDataCommand::class,
             ]);
         }
-    }
-
-    protected function configureRoutes(): void
-    {
-        Route::group([
-            'namespace' => 'RiotApiConnector\Http\Controllers',
-            'domain' => config('riot-api-connector.domain'),
-            'prefix' => config('riot-api-connector.prefix', 'riot'),
-        ], fn () => $this->loadRoutesFrom(__DIR__.'/../routes/routes.php'));
     }
 }

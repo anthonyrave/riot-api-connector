@@ -12,7 +12,7 @@ class FetchDataCommand extends Command
      * @var string
      */
     protected $signature = 'riot-api-connector:fetch
-                            {--data=* : Data types you would like to fetch (leaving blank will fetch all data types)}';
+                            {--data=* : Data types (leave blank to fetch all)}';
 
     /**
      * @var string

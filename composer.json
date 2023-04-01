@@ -16,7 +16,6 @@
     ],
     "require": {
         "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^10.4"
     },
     "require-dev": {
