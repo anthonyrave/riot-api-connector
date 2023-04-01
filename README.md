@@ -2,7 +2,10 @@
 
 <p align="center"
     <a href="https://packagist.org/packages/anthonyrave/riot-api-connector">
-        <img src="https://img.shields.io/github/license/anthonyrave/riot-api-connector" alt="License">
+        <img alt="Packagist Version" src="https://img.shields.io/packagist/v/anthonyrave/riot-api-connector">
+    </a>
+    <a href="https://packagist.org/packages/anthonyrave/riot-api-connector">
+        <img alt="License" src="https://img.shields.io/github/license/anthonyrave/riot-api-connector">
     </a>
 </p>
 
