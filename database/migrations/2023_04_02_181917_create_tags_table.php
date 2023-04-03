@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('champions', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();
-            $table->string('riot_id')->unique();
-            $table->json('name');
-            $table->json('title');
-            $table->json('blurb');
-            $table->json('partype');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('champions');
+        Schema::dropIfExists('tags');
     }
 };

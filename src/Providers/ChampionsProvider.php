@@ -3,7 +3,8 @@
 namespace RiotApiConnector\Providers;
 
 use RiotApiConnector\Contracts\DataDragonProvider;
-use RiotApiConnector\Models\Champion;
+use RiotApiConnector\Models\Champion\Champion;
+use RiotApiConnector\Models\Tag;
 
 class ChampionsProvider extends AbstractProvider implements DataDragonProvider
 {
@@ -14,24 +15,28 @@ class ChampionsProvider extends AbstractProvider implements DataDragonProvider
 
     protected function mapDataToModels(array $data)
     {
-        if (empty($data)) {
-            return;
+        $lg = $this->getLocale();
+        foreach ($data as $championData) {
+            $champion = Champion::updateOrCreate(
+                [
+                    'key' => $championData['key'],
+                    'riot_id' => $championData['id'],
+                ],
+                [
+                    'name' => [$lg => $championData['name']],
+                    'title' => [$lg => $championData['title']],
+                    'blurb' => [$lg => $championData['blurb']],
+                    'partype' => [$lg => $championData['partype']],
+                ]
+            );
+
+            $champion->image()->firstOrCreate($championData['image']);
+            $champion->info()->firstOrCreate($championData['info']);
+            $champion->stats()->firstOrCreate($championData['stats']);
+
+            foreach ($championData['tags'] as $tagName) {
+                Tag::firstOrCreate(['name' => $tagName])->champions()->attach($champion);
+            }
         }
-
-        Champion::truncate();
-
-        $formattedData = [];
-        foreach ($data as $rawData) {
-            $formattedData[] = [
-                'key' => $rawData['key'],
-                'name' => $rawData['name'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        Champion::unguard();
-        Champion::insert($formattedData);
-        Champion::reguard();
     }
 }

@@ -4,5 +4,5 @@ namespace RiotApiConnector\Contracts;
 
 interface DataDragonProvider
 {
-    public function update();
+    public function update(string $version);
 }

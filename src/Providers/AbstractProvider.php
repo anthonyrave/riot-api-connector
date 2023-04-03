@@ -7,36 +7,39 @@ use RiotApiConnector\Contracts\DataDragonProvider;
 
 abstract class AbstractProvider implements DataDragonProvider
 {
-    public function update(): void
+    public function update(string $version): void
     {
-        $response = $this->fetch();
+        $response = $this->fetch($version);
 
         $this->mapDataToModels($response['data']);
     }
 
-    protected function fetch(): array
+    protected function fetch(string $version): array
     {
-        $response = Http::withUrlParameters($this->getUrlParameters())->get($this->getUrl());
+        $response = Http::withUrlParameters($this->getUrlParameters($version))->get($this->getUrl());
 
         return $response->json();
     }
 
-    protected function getLastVersion(): string
+    protected function getUrlParameters(string $version): array
     {
-        $response = Http::get(config('data-dragon.data.versions'));
-
-        return $response->json()[0];
+        return [
+            'version' => $version,
+            'lang' => $this->getLang(),
+        ];
     }
 
-    abstract protected function mapDataToModels(array $data);
+    protected function getLocale(): string
+    {
+        return explode('_', $this->getLang(), 2)[0];
+    }
+
+    protected function getLang(): string
+    {
+        return config('data-dragon.default.lang');
+    }
 
     abstract protected function getUrl(): string;
 
-    protected function getUrlParameters(): array
-    {
-        return [
-            'version' => $this->getLastVersion(),
-            'lang' => config('data-dragon.default.lang'),
-        ];
-    }
+    abstract protected function mapDataToModels(array $data);
 }

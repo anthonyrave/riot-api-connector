@@ -3,6 +3,7 @@
 namespace RiotApiConnector\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Enums\DataTypeEnum;
 use RiotApiConnector\Facades\DataDragon;
 
@@ -19,8 +20,15 @@ class FetchDataCommand extends Command
      */
     protected $description = 'Fetches the data with DataDragon for the specified data types.';
 
+    /**
+     * Version used to retrieve the data
+     */
+    private string $version;
+
     public function handle(): void
     {
+        $this->retrieveLatestVersion();
+
         $options = $this->option('data');
 
         if (empty($options)) {
@@ -28,26 +36,27 @@ class FetchDataCommand extends Command
         } else {
             $this->fetchDataTypes($options);
         }
+        $this->newLine();
+        $this->info('Done');
     }
 
     private function fetchAllDataTypes(): void
     {
-        $this->info('Fetching all data...');
-
-        foreach (DataTypeEnum::cases() as $dataTypeEnum) {
+        $this->line('Fetch all data types');
+        $this->withProgressBar(DataTypeEnum::cases(), function ($dataTypeEnum) {
             $this->fetchDataType($dataTypeEnum);
-        }
+        });
     }
 
     private function fetchDataType(DataTypeEnum $dataType): void
     {
-        $this->info('Fetching data of type '.$dataType->value.'...');
-        DataDragon::driver($dataType->value)->update();
+        DataDragon::driver($dataType->value)->update($this->version);
     }
 
     private function fetchDataTypes(array $options): void
     {
-        foreach ($options as $option) {
+        $this->line('Fetch '.implode(', ', $options));
+        $this->withProgressBar($options, function ($option) {
             $dataType = DataTypeEnum::tryFrom($option);
 
             if ($dataType === null) {
@@ -57,6 +66,14 @@ class FetchDataCommand extends Command
             }
 
             $this->fetchDataType($dataType);
-        }
+        });
+    }
+
+    private function retrieveLatestVersion()
+    {
+        $this->info('Retrieving latest version...');
+        $this->version = Http::get(config('data-dragon.data.versions'))->json()[0];
+        $this->comment($this->version);
+        $this->newLine();
     }
 }
