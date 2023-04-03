@@ -5,7 +5,6 @@ namespace RiotApiConnector\Models\Champion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use RiotApiConnector\Models\Tag;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -46,6 +45,6 @@ class Champion extends Model
 
     public function tags(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(ChampionTag::class);
     }
 }

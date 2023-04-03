@@ -4,7 +4,7 @@ namespace RiotApiConnector\Providers;
 
 use RiotApiConnector\Contracts\DataDragonProvider;
 use RiotApiConnector\Models\Champion\Champion;
-use RiotApiConnector\Models\Tag;
+use RiotApiConnector\Models\Champion\ChampionTag;
 
 class ChampionsProvider extends AbstractProvider implements DataDragonProvider
 {
@@ -35,7 +35,7 @@ class ChampionsProvider extends AbstractProvider implements DataDragonProvider
             $champion->stats()->firstOrCreate($championData['stats']);
 
             foreach ($championData['tags'] as $tagName) {
-                Tag::firstOrCreate(['name' => $tagName])->champions()->attach($champion);
+                ChampionTag::firstOrCreate(['name' => $tagName])->champions()->attach($champion);
             }
         }
     }

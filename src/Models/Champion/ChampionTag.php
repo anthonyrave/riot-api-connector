@@ -1,12 +1,11 @@
 <?php
 
-namespace RiotApiConnector\Models;
+namespace RiotApiConnector\Models\Champion;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use RiotApiConnector\Models\Champion\Champion;
 
-class Tag extends Model
+class ChampionTag extends Model
 {
     /**
      * @var array<int, string>
