@@ -41,7 +41,7 @@ class Champion extends Model
 
     public function stats(): HasOne
     {
-        return $this->hasOne(ChampionStats::class);
+        return $this->hasOne(ChampionStat::class);
     }
 
     public function tags(): HasMany
