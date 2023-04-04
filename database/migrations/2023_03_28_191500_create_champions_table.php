@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('champions', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();
+            $table->integer('key')->unique();
             $table->string('riot_id')->unique();
             $table->json('name');
             $table->json('title');
