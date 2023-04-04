@@ -7,6 +7,8 @@ use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
 use RiotApiConnector\Contracts\DataDragonFactory;
 use RiotApiConnector\Contracts\RiotApiFactory;
+use RiotApiConnector\Contracts\SummonerFactory;
+use RiotApiConnector\Services\SummonerService;
 
 class RiotApiConnectorServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,11 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            abstract: SummonerFactory::class,
+            concrete: fn () => new SummonerService(app(RiotApiFactory::class)),
+        );
+
+        $this->app->singleton(
             abstract: DataDragonFactory::class,
             concrete: fn ($app) => new DataDragonManager($app)
         );
@@ -36,6 +43,7 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
         return [
             DataDragonFactory::class,
             RiotApiFactory::class,
+            SummonerFactory::class,
         ];
     }
 
