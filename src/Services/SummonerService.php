@@ -25,6 +25,7 @@ class SummonerService implements SummonerFactory
     {
         $this->riotApiService
             ->get('/lol/summoner/v4/summoners/{id}');
+        app()->setLocale();
     }
 
     public function byPuuid(string $puuid)

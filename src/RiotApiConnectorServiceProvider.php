@@ -2,6 +2,7 @@
 
 namespace RiotApiConnector;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
@@ -18,6 +19,10 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
             $this->mergeConfigFrom(__DIR__.'/../config/riot-api-connector.php', 'riot-api-connector');
             $this->mergeConfigFrom(__DIR__.'/../config/data-dragon.php', 'data-dragon');
         }
+
+        Application::macro('setServer', function (string $server) {
+            app()['config']->set('riot-api-connector.server', $server);
+        });
 
         $this->app->singleton(
             abstract: RiotApiFactory::class,
