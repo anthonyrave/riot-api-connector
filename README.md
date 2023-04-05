@@ -1,6 +1,6 @@
-# Riot API Connector
+<p align="center"><a href="https://github.com/anthonyrave/riot-api-connector" target="_blank"><img src="./art/logo-full-red.svg" width="400"></a></p>
 
-<p align="center"
+<p align="center">
     <a href="https://packagist.org/packages/anthonyrave/riot-api-connector">
         <img alt="Packagist Version" src="https://img.shields.io/packagist/v/anthonyrave/riot-api-connector">
     </a>
