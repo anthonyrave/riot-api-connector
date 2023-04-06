@@ -13,15 +13,15 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
     public function register(): void
     {
         if (! app()->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__.'/../config/riot-api-connector.php', 'riot-api-connector');
-            $this->mergeConfigFrom(__DIR__.'/../config/data-dragon.php', 'data-dragon');
+            $this->mergeConfigFrom(__DIR__.'/../config/riot_api_connector.php', 'riot_api_connector');
+            $this->mergeConfigFrom(__DIR__.'/../config/data_dragon.php', 'data_dragon');
         }
 
         $this->app->singleton(
             abstract: RiotApiFactory::class,
             concrete: fn () => new RiotApi(
-                baseUri: strval(config('riot-api-connector.url')),
-                token: strval(config('riot-api-connector.token'))
+                baseUri: strval(config('riot_api_connector.url')),
+                token: strval(config('riot_api_connector.token'))
             ),
         );
 

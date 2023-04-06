@@ -10,7 +10,7 @@ class ChampionsProvider extends AbstractProvider implements DataDragonProvider
 {
     protected function getUrl(): string
     {
-        return config('data-dragon.data.champions');
+        return config('data_dragon.data.champions');
     }
 
     protected function mapDataToModels(array $data)

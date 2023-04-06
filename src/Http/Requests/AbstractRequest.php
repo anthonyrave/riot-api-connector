@@ -4,11 +4,10 @@ namespace RiotApiConnector\Http\Requests;
 
 abstract class AbstractRequest
 {
-    public function __construct(private readonly string $server)
-    {
-    }
+    protected string $endpoint;
 
-    public function get()
-    {
+    public function __construct(
+        private readonly string $server
+    ) {
     }
 }

@@ -6,6 +6,8 @@ class SummonerRequest extends AbstractRequest
 {
     public function byId(string $id): SummonerRequest
     {
+        $this->endpoint = config('');
+
         return $this;
     }
 
