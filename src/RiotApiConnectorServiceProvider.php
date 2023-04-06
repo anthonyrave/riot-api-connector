@@ -2,14 +2,11 @@
 
 namespace RiotApiConnector;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
 use RiotApiConnector\Contracts\DataDragonFactory;
 use RiotApiConnector\Contracts\RiotApiFactory;
-use RiotApiConnector\Contracts\SummonerFactory;
-use RiotApiConnector\Services\SummonerService;
 
 class RiotApiConnectorServiceProvider extends ServiceProvider
 {
@@ -20,21 +17,12 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
             $this->mergeConfigFrom(__DIR__.'/../config/data-dragon.php', 'data-dragon');
         }
 
-        Application::macro('setServer', function (string $server) {
-            app()['config']->set('riot-api-connector.server', $server);
-        });
-
         $this->app->singleton(
             abstract: RiotApiFactory::class,
             concrete: fn () => new RiotApi(
                 baseUri: strval(config('riot-api-connector.url')),
                 token: strval(config('riot-api-connector.token'))
             ),
-        );
-
-        $this->app->singleton(
-            abstract: SummonerFactory::class,
-            concrete: fn () => new SummonerService(app(RiotApiFactory::class)),
         );
 
         $this->app->singleton(
@@ -48,7 +36,6 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
         return [
             DataDragonFactory::class,
             RiotApiFactory::class,
-            SummonerFactory::class,
         ];
     }
 
