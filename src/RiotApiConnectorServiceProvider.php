@@ -26,7 +26,7 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             abstract: RiotApiFactory::class,
-            concrete: fn () => new RiotApiService(
+            concrete: fn () => new RiotApi(
                 baseUri: strval(config('riot-api-connector.url')),
                 token: strval(config('riot-api-connector.token'))
             ),

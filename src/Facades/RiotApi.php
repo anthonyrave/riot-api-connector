@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 use RiotApiConnector\Contracts\RiotApiFactory;
 
 /**
- * @method array get(string $url, array $params = [], bool $requiresServer = true)
+ * @method summoner(string $server)
  */
 class RiotApi extends Facade
 {

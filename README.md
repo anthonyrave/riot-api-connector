@@ -1,4 +1,8 @@
-<p align="center"><a href="https://github.com/anthonyrave/riot-api-connector" target="_blank"><img src="./art/logo-full-red.svg" width="400"></a></p>
+<p align="center">
+    <a href="https://github.com/anthonyrave/riot-api-connector" target="_blank">
+        <img src="./art/logo-full-red.svg" width="400">
+    </a>
+</p>
 
 <p align="center">
     <a href="https://packagist.org/packages/anthonyrave/riot-api-connector">

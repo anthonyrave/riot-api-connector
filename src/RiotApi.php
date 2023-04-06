@@ -6,12 +6,21 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Contracts\RiotApiFactory;
 
-class RiotApiService implements RiotApiFactory
+class RiotApi implements RiotApiFactory
 {
+    protected string $server;
+
     public function __construct(
         private readonly string $baseUri,
         private readonly string $token
     ) {
+    }
+
+    public function summoner(string $server)
+    {
+        $this->server = $server;
+
+        return new SummonerRequest();
     }
 
     public function get(string $url, array $params = [], bool $requiresServer = true): array
