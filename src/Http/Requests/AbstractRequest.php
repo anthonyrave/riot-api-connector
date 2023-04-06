@@ -4,10 +4,18 @@ namespace RiotApiConnector\Http\Requests;
 
 abstract class AbstractRequest
 {
-    protected string $endpoint;
-
     public function __construct(
-        private readonly string $server
+        protected readonly ?string $server = null
     ) {
+    }
+
+    protected function withServer(string $endpoint, array $urlParams = []): PendingRequest
+    {
+        return new PendingRequest($endpoint, $urlParams, $this->server);
+    }
+
+    protected function withoutServer(string $endpoint, array $urlParams = []): PendingRequest
+    {
+        return new PendingRequest($endpoint, $urlParams);
     }
 }

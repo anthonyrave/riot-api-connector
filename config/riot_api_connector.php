@@ -66,7 +66,7 @@ return [
             'by_id' => '/lol/summoner/v4/summoners/{encryptedSummonerId}',
             'by_puuid' => '/lol/summoner/v4/summoners/by-puuid/{encryptedPUUID}',
             'by_name' => '/lol/summoner/v4/summoners/by-name/{summonerName}',
-            'by_account' => '/lol/summoner/v4/summoners/by-account/{encryptedAccountId}',
+            'by_account_id' => '/lol/summoner/v4/summoners/by-account/{encryptedAccountId}',
         ],
     ],
 
