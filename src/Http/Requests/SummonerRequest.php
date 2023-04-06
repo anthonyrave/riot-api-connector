@@ -2,6 +2,25 @@
 
 namespace RiotApiConnector\Http\Requests;
 
-class SummonerRequest
+class SummonerRequest extends AbstractRequest
 {
+    public function byId(string $id): SummonerRequest
+    {
+        return $this;
+    }
+
+    public function byPuuid(string $puuid): SummonerRequest
+    {
+        return $this;
+    }
+
+    public function byName(string $name): SummonerRequest
+    {
+        return $this;
+    }
+
+    public function byAccount(string $accountId): SummonerRequest
+    {
+        return $this;
+    }
 }

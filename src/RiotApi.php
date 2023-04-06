@@ -5,6 +5,7 @@ namespace RiotApiConnector;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Contracts\RiotApiFactory;
+use RiotApiConnector\Http\Requests\SummonerRequest;
 
 class RiotApi implements RiotApiFactory
 {
@@ -16,11 +17,11 @@ class RiotApi implements RiotApiFactory
     ) {
     }
 
-    public function summoner(string $server)
+    public function summoner(string $server): SummonerRequest
     {
         $this->server = $server;
 
-        return new SummonerRequest();
+        return new SummonerRequest($server);
     }
 
     public function get(string $url, array $params = [], bool $requiresServer = true): array
