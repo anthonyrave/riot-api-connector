@@ -29,6 +29,11 @@
             "RiotApiConnector\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "RiotApiConnector\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [

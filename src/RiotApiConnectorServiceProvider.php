@@ -18,6 +18,11 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
         }
 
         $this->app->singleton(
+            abstract: RiotApiFactory::class,
+            concrete: fn () => new RiotApi()
+        );
+
+        $this->app->singleton(
             abstract: DataDragonFactory::class,
             concrete: fn ($app) => new DataDragonManager($app)
         );
