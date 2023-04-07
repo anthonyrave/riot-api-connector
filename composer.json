@@ -31,7 +31,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "RiotApiConnector\\Tests\\": "tests"
+            "RiotApiConnector\\Tests\\": "tests",
+            "Database\\Factories\\": "database/factories"
         }
     },
     "extra": {

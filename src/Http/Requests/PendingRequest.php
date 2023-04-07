@@ -4,7 +4,7 @@ namespace RiotApiConnector\Http\Requests;
 
 use Illuminate\Support\Facades\Http;
 
-class PendingRequest
+abstract class PendingRequest
 {
     public function __construct(
         protected readonly string $endpoint,

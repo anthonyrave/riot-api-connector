@@ -4,10 +4,10 @@ namespace RiotApiConnector\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use RiotApiConnector\Contracts\RiotApiFactory;
-use RiotApiConnector\Http\Requests\SummonerRequest;
+use RiotApiConnector\Factories\SummonerRequestFactory;
 
 /**
- * @method SummonerRequest summoner(string $server)
+ * @method SummonerRequestFactory summoner(string $server)
  */
 class RiotApi extends Facade
 {
