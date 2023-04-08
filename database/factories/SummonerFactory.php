@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use RiotApiConnector\Models\Summoner\Summoner;
+use RiotApiConnector\Models\Summoner;
 
 class SummonerFactory extends Factory
 {

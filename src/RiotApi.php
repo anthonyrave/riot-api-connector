@@ -3,12 +3,12 @@
 namespace RiotApiConnector;
 
 use RiotApiConnector\Contracts\RiotApiFactory;
-use RiotApiConnector\Factories\SummonerRequestFactory;
+use RiotApiConnector\Repositories\SummonerRepository;
 
 class RiotApi implements RiotApiFactory
 {
-    public function summoner(string $server): SummonerRequestFactory
+    public function summoner(string $regionName): SummonerRepository
     {
-        return new SummonerRequestFactory(server: $server);
+        return new SummonerRepository(regionName: $regionName);
     }
 }

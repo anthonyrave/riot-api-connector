@@ -2,9 +2,9 @@
 
 namespace RiotApiConnector\Contracts;
 
-use RiotApiConnector\Factories\SummonerRequestFactory;
+use RiotApiConnector\Repositories\SummonerRepository;
 
 interface RiotApiFactory
 {
-    public function summoner(string $server): SummonerRequestFactory;
+    public function summoner(string $regionName): SummonerRepository;
 }

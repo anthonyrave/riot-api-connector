@@ -3,20 +3,21 @@
 namespace RiotApiConnector\Http\Requests;
 
 use Illuminate\Support\Facades\Http;
+use RiotApiConnector\Models\Region;
 
 abstract class PendingRequest
 {
     public function __construct(
         protected readonly string $endpoint,
         protected array $urlParams = [],
-        protected ?string $server = null,
+        protected ?Region $region = null,
     ) {
     }
 
     public function get()
     {
         $response = Http::withHeaders(
-            ['X-Riot-Token' => config('riot_api_connector.token')]
+            ['X-Riot-Token' => config('riot.token')]
         )
             ->baseUrl($this->getBaseUrl())
             ->withUrlParameters($this->urlParams)
@@ -27,6 +28,6 @@ abstract class PendingRequest
 
     private function getBaseUrl(): string
     {
-        return ($this->server ? 'https://'.$this->server.'.' : 'https://').config('riot_api_connector.url');
+        return ($this->region ? 'https://'.$this->region->name.'.' : 'https://').config('riot.url');
     }
 }

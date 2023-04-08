@@ -10,13 +10,17 @@ return new class extends Migration
     {
         Schema::create('summoners', function (Blueprint $table) {
             $table->id();
-            $table->string('summonerId');
-            $table->string('accountId');
+            $table->foreignId('region_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->string('summoner_id');
+            $table->string('account_id');
             $table->string('puuid');
             $table->string('name');
-            $table->integer('profileIconId');
-            $table->timestamp('revisionDate');
-            $table->integer('summonerLevel');
+            $table->integer('profile_icon_id');
+            $table->timestamp('revision_date');
+            $table->integer('summoner_level');
             $table->timestamps();
         });
     }

@@ -26,13 +26,14 @@
     },
     "autoload": {
         "psr-4": {
-            "RiotApiConnector\\": "src/"
+            "RiotApiConnector\\": "src/",
+            "Database\\Factories\\": "database/factories",
+            "Database\\Seeders\\\\": "database/seeders"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "RiotApiConnector\\Tests\\": "tests",
-            "Database\\Factories\\": "database/factories"
+            "RiotApiConnector\\Tests\\": "tests"
         }
     },
     "extra": {
