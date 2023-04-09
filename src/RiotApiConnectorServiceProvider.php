@@ -20,7 +20,9 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             abstract: RiotApiFactory::class,
-            concrete: fn () => new RiotApi()
+            concrete: fn () => new RiotApi(
+                useCache: config('riot_api_connector.cache.enabled')
+            )
         );
 
         $this->app->singleton(

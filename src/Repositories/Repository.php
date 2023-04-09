@@ -5,12 +5,15 @@ namespace RiotApiConnector\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use RiotApiConnector\Facades\RiotApi;
 use RiotApiConnector\Http\Requests\PendingRequest;
 use RiotApiConnector\Models\Region;
 
 abstract class Repository
 {
     protected static string $model;
+
+    protected static string $adapter;
 
     protected static string $namespace = 'RiotApiConnector\\';
 
@@ -45,7 +48,7 @@ abstract class Repository
         return static::$namespace.'Models\\'.$modelName;
     }
 
-    public static function resolveRequestName(string $repositoryName): string
+    public static function resolveAdapterName(string $repositoryName): string
     {
         $packageNamespace = static::$namespace;
 
@@ -53,20 +56,36 @@ abstract class Repository
             ? Str::after($repositoryName, $packageNamespace.'Repositories\\')
             : Str::after($repositoryName, $packageNamespace);
 
-        $requestName = Str::before($repositoryName, 'Repository').'Request';
+        $requestName = Str::before($repositoryName, 'Repository').'Adapter';
 
-        return static::$namespace.'Http\\Requests\\'.$requestName;
+        return static::$namespace.'Adapters\\'.$requestName;
     }
 
     public function get()
     {
-        if (! config('riot_api_connector.cache.enabled')) {
-            $this->fromApi();
+        if (! RiotApi::useCache()) {
+            return $this->fromApi();
         }
+
+        $model = $this->fromDb();
+
+        if ($model->expired) {
+            return $this->fromApi();
+        }
+
+        return $model;
     }
 
     public function fromApi()
     {
-        return $this->request->get();
+        $data = $this->request->fetch();
+        $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
+
+        return $adapter::newFromApi($data);
+    }
+
+    public function fromDb(): Model
+    {
+        return $this->query->first();
     }
 }

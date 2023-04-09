@@ -5,7 +5,7 @@ namespace RiotApiConnector\Http\Requests;
 use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Models\Region;
 
-abstract class PendingRequest
+class PendingRequest
 {
     public function __construct(
         protected readonly string $endpoint,
@@ -14,7 +14,7 @@ abstract class PendingRequest
     ) {
     }
 
-    public function get()
+    public function fetch()
     {
         $response = Http::withHeaders(
             ['X-Riot-Token' => config('riot.token')]

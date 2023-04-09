@@ -8,6 +8,7 @@ use RiotApiConnector\Repositories\SummonerRepository;
 
 /**
  * @method SummonerRepository summoner(string $regionName)
+ * @method bool useCache()
  */
 class RiotApi extends Facade
 {
