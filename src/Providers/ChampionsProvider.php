@@ -15,7 +15,7 @@ class ChampionsProvider extends AbstractProvider implements DataDragonProvider
 
     protected function mapDataToModels(array $data)
     {
-        $lg = $this->getLocale();
+        $lang = $this->getLocale();
         foreach ($data as $championData) {
             $champion = Champion::updateOrCreate(
                 [
@@ -23,10 +23,10 @@ class ChampionsProvider extends AbstractProvider implements DataDragonProvider
                     'riot_id' => $championData['id'],
                 ],
                 [
-                    'name' => [$lg => $championData['name']],
-                    'title' => [$lg => $championData['title']],
-                    'blurb' => [$lg => $championData['blurb']],
-                    'partype' => [$lg => $championData['partype']],
+                    'name' => [$lang => $championData['name']],
+                    'title' => [$lang => $championData['title']],
+                    'blurb' => [$lang => $championData['blurb']],
+                    'partype' => [$lang => $championData['partype']],
                 ]
             );
 

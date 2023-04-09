@@ -80,8 +80,15 @@ abstract class Repository
     {
         $data = $this->request->fetch();
         $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
+        /** @var Model $model */
+        $model = $adapter::newFromApi($data, $this->region->id);
 
-        return $adapter::newFromApi($data);
+        if (RiotApi::useCache()) {
+            $model->save();
+            $model->refresh();
+        }
+
+        return $model;
     }
 
     public function fromDb(): Model
