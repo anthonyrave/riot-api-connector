@@ -2,6 +2,7 @@
 
 namespace RiotApiConnector\Repositories;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -11,28 +12,51 @@ use RiotApiConnector\Models\Region;
 
 abstract class Repository
 {
-    protected static string $model;
-
     protected static string $adapter;
 
     protected static string $namespace = 'RiotApiConnector\\';
 
-    protected ?Region $region;
+    protected string $model;
 
-    protected PendingRequest $request;
+    public function __construct(
+        protected PendingRequest $request,
+        protected Builder $query
+    ) {
+    }
 
-    protected Builder $query;
-
-    public function __construct(?string $regionName = null)
+    /**
+     * @param  class-string<Model>  $modelName
+     *
+     * @throws BindingResolutionException
+     */
+    public static function repositoryForModel(string $modelName): Repository
     {
-        if ($regionName) {
-            $this->region = Region::query()
-                ->where('name', $regionName)
-                ->first();
-        }
-        /** @var Model $model */
-        $model = static::$model ?? self::resolveModelName(get_called_class());
-        $this->query = $model::query();
+        /** @var Repository $repository */
+        $repository = static::resolveRepositoryName($modelName);
+
+        return $repository::new();
+    }
+
+    /**
+     * @return class-string<Repository>
+     */
+    public static function resolveRepositoryName(string $modelName)
+    {
+        $packageNamespace = static::$namespace;
+
+        $modelName = Str::startsWith($modelName, $packageNamespace.'Models\\')
+            ? Str::after($modelName, $packageNamespace.'Models\\')
+            : Str::after($modelName, $packageNamespace);
+
+        return $packageNamespace.'Repositories\\'.$modelName.'Repository';
+    }
+
+    /**
+     * @throws BindingResolutionException
+     */
+    public static function new(): Repository
+    {
+        return app()->make(get_called_class());
     }
 
     public static function resolveModelName(string $repositoryName): string
@@ -45,20 +69,19 @@ abstract class Repository
 
         $modelName = Str::before($repositoryName, 'Repository');
 
-        return static::$namespace.'Models\\'.$modelName;
+        return $packageNamespace.'Models\\'.$modelName;
     }
 
-    public static function resolveAdapterName(string $repositoryName): string
+    public function region(?Region $region = null): static
     {
-        $packageNamespace = static::$namespace;
+        if ($region === null) {
+            return $this;
+        }
 
-        $repositoryName = Str::startsWith($repositoryName, $packageNamespace.'Repositories\\')
-            ? Str::after($repositoryName, $packageNamespace.'Repositories\\')
-            : Str::after($repositoryName, $packageNamespace);
+        $this->request->region = $region;
+        $this->query->where('region_id', $region->id);
 
-        $requestName = Str::before($repositoryName, 'Repository').'Adapter';
-
-        return static::$namespace.'Adapters\\'.$requestName;
+        return $this;
     }
 
     public function get()
@@ -76,19 +99,31 @@ abstract class Repository
         return $model;
     }
 
-    public function fromApi()
+    public function fromApi(): Model
     {
         $data = $this->request->fetch();
         $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
-        /** @var Model $model */
-        $model = $adapter::newFromApi($data, $this->region->id);
+        $model = $adapter::newFromApi($data, $this->request->region->id);
 
-        if (RiotApi::useCache()) {
+        if (config('riot_api_connector.cache.enabled')) {
             $model->save();
             $model->refresh();
         }
 
         return $model;
+    }
+
+    public static function resolveAdapterName(string $repositoryName): string
+    {
+        $packageNamespace = static::$namespace;
+
+        $repositoryName = Str::startsWith($repositoryName, $packageNamespace.'Repositories\\')
+            ? Str::after($repositoryName, $packageNamespace.'Repositories\\')
+            : Str::after($repositoryName, $packageNamespace);
+
+        $requestName = Str::before($repositoryName, 'Repository').'Adapter';
+
+        return $packageNamespace.'Adapters\\'.$requestName;
     }
 
     public function fromDb(): Model

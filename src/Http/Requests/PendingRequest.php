@@ -7,10 +7,13 @@ use RiotApiConnector\Models\Region;
 
 class PendingRequest
 {
+    public string $endpoint;
+
+    public array $url_params;
+
+    public ?Region $region;
+
     public function __construct(
-        protected readonly string $endpoint,
-        protected array $urlParams = [],
-        protected ?Region $region = null,
     ) {
     }
 
@@ -20,7 +23,7 @@ class PendingRequest
             ['X-Riot-Token' => config('riot.token')]
         )
             ->baseUrl($this->getBaseUrl())
-            ->withUrlParameters($this->urlParams)
+            ->withUrlParameters($this->url_params)
             ->get($this->endpoint);
 
         return $response->json();

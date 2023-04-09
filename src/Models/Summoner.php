@@ -5,12 +5,14 @@ namespace RiotApiConnector\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use RiotApiConnector\Models\Concerns\FromApi;
+use RiotApiConnector\Models\Concerns\Fetchable;
+use RiotApiConnector\Models\Concerns\HasRepository;
 
 class Summoner extends Model
 {
     use HasFactory;
-    use FromApi;
+    use HasRepository;
+    use Fetchable;
 
     /**
      * @var array<int, string>

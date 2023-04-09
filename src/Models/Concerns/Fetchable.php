@@ -5,7 +5,10 @@ namespace RiotApiConnector\Models\Concerns;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
 
-trait FromApi
+/**
+ * @property-read bool $expired
+ */
+trait Fetchable
 {
     protected function expired(): Attribute
     {

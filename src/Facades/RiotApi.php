@@ -4,10 +4,11 @@ namespace RiotApiConnector\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use RiotApiConnector\Contracts\RiotApiFactory;
+use RiotApiConnector\Models\Region;
 use RiotApiConnector\Repositories\SummonerRepository;
 
 /**
- * @method SummonerRepository summoner(string $regionName)
+ * @method SummonerRepository summoner(Region $region)
  * @method bool useCache()
  */
 class RiotApi extends Facade

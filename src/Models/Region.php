@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string name
+ * @property int $id
+ * @property string $name
  */
 class Region extends Model
 {

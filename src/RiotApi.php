@@ -2,22 +2,18 @@
 
 namespace RiotApiConnector;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use RiotApiConnector\Contracts\RiotApiFactory;
-use RiotApiConnector\Repositories\SummonerRepository;
+use RiotApiConnector\Models\Region;
+use RiotApiConnector\Models\Summoner;
 
 class RiotApi implements RiotApiFactory
 {
-    public function __construct(protected readonly bool $useCache)
+    /**
+     * @throws BindingResolutionException
+     */
+    public static function summoner(Region $region): Repositories\SummonerRepository
     {
-    }
-
-    public function summoner(string $regionName): SummonerRepository
-    {
-        return new SummonerRepository(regionName: $regionName);
-    }
-
-    public function useCache(): bool
-    {
-        return $this->useCache;
+        return Summoner::repository($region);
     }
 }
