@@ -28,7 +28,7 @@
         "psr-4": {
             "RiotApiConnector\\": "src/",
             "Database\\Factories\\": "database/factories",
-            "Database\\Seeders\\\\": "database/seeders"
+            "Database\\Seeders\\": "database/seeders"
         }
     },
     "autoload-dev": {
