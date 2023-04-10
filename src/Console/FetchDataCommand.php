@@ -69,7 +69,7 @@ class FetchDataCommand extends Command
         });
     }
 
-    private function retrieveLatestVersion()
+    private function retrieveLatestVersion(): void
     {
         $this->info('Retrieving latest version...');
         $this->version = Http::get(config('data_dragon.data.versions'))->json()[0];
