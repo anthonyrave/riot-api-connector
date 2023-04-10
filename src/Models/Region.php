@@ -2,6 +2,7 @@
 
 namespace RiotApiConnector\Models;
 
+use Database\Factories\RegionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,4 +20,9 @@ class Region extends Model
     protected $fillable = [
         'name',
     ];
+
+    protected static function newFactory(): RegionFactory
+    {
+        return RegionFactory::new();
+    }
 }
