@@ -36,7 +36,7 @@ abstract class AbstractProvider implements DataDragonProvider
 
     protected function getLang(): string
     {
-        return config('data-dragon.default.lang');
+        return config('data_dragon.default.lang');
     }
 
     abstract protected function getUrl(): string;
