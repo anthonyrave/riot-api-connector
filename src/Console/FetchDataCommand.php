@@ -27,11 +27,12 @@ class FetchDataCommand extends Command
 
     private array $dataTypes;
 
+    private bool $fetchAll = false;
+
     public function handle(): void
     {
-        $this->retrieveLatestVersion();
-
         $this->validateOptions();
+        $this->retrieveLatestVersion();
 
         $this->fetchDataTypes();
 
@@ -46,16 +47,12 @@ class FetchDataCommand extends Command
 
     private function fetchDataTypes(): void
     {
-        $this->line('Fetch '.implode(', ', $this->dataTypes));
+        if ($this->fetchAll) {
+            $this->line('Fetch all data types');
+        } else {
+            $this->line('Fetch '.implode(', ', $this->dataTypes));
+        }
         $this->withProgressBar($this->dataTypes, function ($dataType) {
-            $dataType = DataTypeEnum::tryFrom($dataType);
-
-            if ($dataType === null) {
-                $this->error('Data of type "'.$dataType.'" does not exist.');
-
-                return;
-            }
-
             $this->fetchDataType($dataType);
         });
     }
@@ -73,7 +70,7 @@ class FetchDataCommand extends Command
         $options = $this->option('data');
 
         if (empty($options)) {
-            $this->line('Fetch all data types');
+            $this->fetchAll = true;
             $this->dataTypes = DataTypeEnum::cases();
             return;
         }
