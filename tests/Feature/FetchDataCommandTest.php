@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Models\Champion\Champion;
 use function Pest\Laravel\artisan;
 
-it('tells the user if a given data type is unknown', function () {
+it('tells the user if a given data type is invalid', function () {
     artisan('riot-api-connector:fetch --data=unknown')
         ->expectsOutput('Data of type "unknown" does not exist.');
 });
 
-it('can fetch champions from DataDragon', function () {
+it('can fetch champions', function () {
     $championsUrl = UriTemplate::expand(config('data_dragon.data.champions'), [
         'version' => '13.7.1',
         'lang' => config('data_dragon.default.lang'),
