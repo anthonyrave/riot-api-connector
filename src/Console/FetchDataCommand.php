@@ -76,12 +76,13 @@ class FetchDataCommand extends Command
         }
 
         foreach ($options as $option) {
-            if (null === DataTypeEnum::tryFrom($option)) {
+            $dataType = DataTypeEnum::tryFrom($option);
+            if (null === $dataType) {
                 $this->error('Data of type "'.$option.'" does not exist.');
                 exit(1);
             }
 
-            $this->dataTypes[] = $option;
+            $this->dataTypes[] = $dataType;
         }
     }
 }
