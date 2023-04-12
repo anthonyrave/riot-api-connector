@@ -50,7 +50,10 @@ class FetchDataCommand extends Command
         if ($this->fetchAll) {
             $this->line('Fetch all data types');
         } else {
-            $this->line('Fetch '.implode(', ', $this->dataTypes));
+            $this->line('Data to fetch:');
+            foreach ($this->dataTypes as $dataType) {
+                $this->line('- '.$dataType->value);
+            }
         }
         $this->withProgressBar($this->dataTypes, function ($dataType) {
             $this->fetchDataType($dataType);
