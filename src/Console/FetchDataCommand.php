@@ -25,27 +25,18 @@ class FetchDataCommand extends Command
      */
     private string $version;
 
+    private array $dataTypes;
+
     public function handle(): void
     {
         $this->retrieveLatestVersion();
 
-        $options = $this->option('data');
+        $this->validateOptions();
 
-        if (empty($options)) {
-            $this->fetchAllDataTypes();
-        } else {
-            $this->fetchDataTypes($options);
-        }
+        $this->fetchDataTypes();
+
         $this->newLine();
         $this->info('Done');
-    }
-
-    private function fetchAllDataTypes(): void
-    {
-        $this->line('Fetch all data types');
-        $this->withProgressBar(DataTypeEnum::cases(), function ($dataTypeEnum) {
-            $this->fetchDataType($dataTypeEnum);
-        });
     }
 
     private function fetchDataType(DataTypeEnum $dataType): void
@@ -53,14 +44,14 @@ class FetchDataCommand extends Command
         DataDragon::driver($dataType->value)->update($this->version);
     }
 
-    private function fetchDataTypes(array $options): void
+    private function fetchDataTypes(): void
     {
-        $this->line('Fetch '.implode(', ', $options));
-        $this->withProgressBar($options, function ($option) {
-            $dataType = DataTypeEnum::tryFrom($option);
+        $this->line('Fetch '.implode(', ', $this->dataTypes));
+        $this->withProgressBar($this->dataTypes, function ($dataType) {
+            $dataType = DataTypeEnum::tryFrom($dataType);
 
             if ($dataType === null) {
-                $this->error('Data of type "'.$option.'" does not exist.');
+                $this->error('Data of type "'.$dataType.'" does not exist.');
 
                 return;
             }
@@ -75,5 +66,25 @@ class FetchDataCommand extends Command
         $this->version = Http::get(config('data_dragon.data.versions'))->json()[0];
         $this->comment($this->version);
         $this->newLine();
+    }
+
+    private function validateOptions(): void
+    {
+        $options = $this->option('data');
+
+        if (empty($options)) {
+            $this->line('Fetch all data types');
+            $this->dataTypes = DataTypeEnum::cases();
+            return;
+        }
+
+        foreach ($options as $option) {
+            if (null === DataTypeEnum::tryFrom($option)) {
+                $this->error('Data of type "'.$option.'" does not exist.');
+                exit(1);
+            }
+
+            $this->dataTypes[] = $option;
+        }
     }
 }
