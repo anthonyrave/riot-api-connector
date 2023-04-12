@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Models\Champion\Champion;
 use function Pest\Laravel\artisan;
 
-it('tell the user if a given data type is unknown', function () {
+it('tells the user if a given data type is unknown', function () {
     artisan('riot-api-connector:fetch --data=unknown')
         ->expectsOutput('Data of type "unknown" does not exist.');
 });
