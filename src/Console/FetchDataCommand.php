@@ -29,15 +29,19 @@ class FetchDataCommand extends Command
 
     private bool $fetchAll = false;
 
-    public function handle(): void
+    public function handle(): int
     {
-        $this->validateOptions();
+        if (! $this->validate()) {
+            return 1;
+        }
         $this->retrieveLatestVersion();
 
         $this->fetchDataTypes();
 
         $this->newLine();
         $this->info('Done');
+
+        return 0;
     }
 
     private function fetchDataType(DataTypeEnum $dataType): void
@@ -68,7 +72,7 @@ class FetchDataCommand extends Command
         $this->newLine();
     }
 
-    private function validateOptions(): void
+    private function validate(): bool
     {
         $options = $this->option('data');
 
@@ -76,17 +80,20 @@ class FetchDataCommand extends Command
             $this->fetchAll = true;
             $this->dataTypes = DataTypeEnum::cases();
 
-            return;
+            return true;
         }
 
         foreach ($options as $option) {
             $dataType = DataTypeEnum::tryFrom($option);
             if (null === $dataType) {
                 $this->error('Data of type "'.$option.'" does not exist.');
-                exit(1);
+
+                return false;
             }
 
             $this->dataTypes[] = $dataType;
         }
+
+        return true;
     }
 }
