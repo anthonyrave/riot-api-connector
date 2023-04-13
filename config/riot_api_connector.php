@@ -15,8 +15,8 @@ return [
 
     'cache' => [
         'enabled' => true,
-        'duration' => 10 * 24 * 60 * 60, // 10 days
-        //        'duration' => 10, // for testing
+        'duration' => 7 * 24 * 60 * 60, // 7 days
+        //        'duration' => 10, // 10s for testing
     ],
 
 ];

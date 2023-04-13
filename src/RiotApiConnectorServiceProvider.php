@@ -2,13 +2,13 @@
 
 namespace RiotApiConnector;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
 use RiotApiConnector\Contracts\DataDragonFactory;
 use RiotApiConnector\Contracts\RiotApiFactory;
 use RiotApiConnector\Http\Requests\PendingRequest;
+use RiotApiConnector\Models\Summoner;
 use RiotApiConnector\Repositories\SummonerRepository;
 
 class RiotApiConnectorServiceProvider extends ServiceProvider
@@ -40,7 +40,7 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
             abstract: SummonerRepository::class,
             concrete: fn ($app) => new SummonerRepository(
                 $app->make(PendingRequest::class),
-                $app->make(Builder::class)
+                Summoner::query()
             )
         );
     }

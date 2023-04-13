@@ -3,8 +3,8 @@
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use RiotApiConnector\Models\Champion\Champion;
 use function Pest\Laravel\artisan;
+use RiotApiConnector\Models\Champion\Champion;
 
 it('tell the user if a given data type is unknown', function () {
     artisan('riot-api-connector:fetch --data=unknown')

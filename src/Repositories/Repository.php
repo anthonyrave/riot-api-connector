@@ -6,7 +6,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use RiotApiConnector\Facades\RiotApi;
+use RiotApiConnector\Adapters\SummonerAdapter;
 use RiotApiConnector\Http\Requests\PendingRequest;
 use RiotApiConnector\Models\Region;
 
@@ -40,7 +40,7 @@ abstract class Repository
     /**
      * @return class-string<Repository>
      */
-    public static function resolveRepositoryName(string $modelName)
+    public static function resolveRepositoryName(string $modelName): string
     {
         $packageNamespace = static::$namespace;
 
@@ -84,15 +84,15 @@ abstract class Repository
         return $this;
     }
 
-    public function get()
+    public function get(): Model
     {
-        if (! RiotApi::useCache()) {
+        if (! config('riot_api_connector.cache.enabled')) {
             return $this->fromApi();
         }
 
         $model = $this->fromDb();
 
-        if ($model->expired) {
+        if (! $model || $model->expired) {
             return $this->fromApi();
         }
 
@@ -102,13 +102,9 @@ abstract class Repository
     public function fromApi(): Model
     {
         $data = $this->request->fetch();
+        /** @var SummonerAdapter $adapter */
         $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
         $model = $adapter::newFromApi($data, $this->request->region->id);
-
-        if (config('riot_api_connector.cache.enabled')) {
-            $model->save();
-            $model->refresh();
-        }
 
         return $model;
     }
@@ -126,7 +122,7 @@ abstract class Repository
         return $packageNamespace.'Adapters\\'.$requestName;
     }
 
-    public function fromDb(): Model
+    public function fromDb(): ?Model
     {
         return $this->query->first();
     }

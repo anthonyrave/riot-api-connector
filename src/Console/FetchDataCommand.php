@@ -75,6 +75,7 @@ class FetchDataCommand extends Command
         if (empty($options)) {
             $this->fetchAll = true;
             $this->dataTypes = DataTypeEnum::cases();
+
             return;
         }
 
