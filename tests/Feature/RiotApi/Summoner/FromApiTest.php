@@ -1,9 +1,7 @@
 <?php
 
 use GuzzleHttp\UriTemplate\UriTemplate;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use RiotApiConnector\Adapters\SummonerAdapter;
 use RiotApiConnector\Facades\RiotApi;
 use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
