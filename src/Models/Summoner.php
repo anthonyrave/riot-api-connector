@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use RiotApiConnector\Models\Concerns\Fetchable;
 use RiotApiConnector\Models\Concerns\HasRepository;
 
+/**
+ * @property int $region_id
+ * @property string $summoner_id
+ * @property string $account_id
+ * @property string $puuid
+ * @property string $name
+ * @property int profile_icon_id
+ * @property int revision_date
+ */
 class Summoner extends Model
 {
     use HasFactory;
