@@ -60,18 +60,6 @@ it('can be retrieved by PUUID from API', function () {
         ->toBeInstanceOf(Summoner::class);
 });
 
-function initFakeSummonerFetch(): array
-{
-    /** @var Region $region */
-    $region = Region::query()->where('name', 'euw1')->first();
-
-    $json = File::get(__DIR__ . '/../../../Datasets/summoner.json');
-    $summonerArray = json_decode($json, true);
-    $summoner = SummonerAdapter::newFromApi($summonerArray, $region->id);
-
-    return [$region, $summoner, $json];
-}
-
 function fakeResponse(Region $region, string $endpoint, string $json): void
 {
     $fullUrl = $region->name . '.' . config('riot.url') . $endpoint;

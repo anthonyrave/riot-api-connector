@@ -10,6 +10,11 @@
 | need to change it using the "uses()" function to bind a different classes or traits.
 |
 */
+
+use Illuminate\Support\Facades\File;
+use RiotApiConnector\Adapters\SummonerAdapter;
+use RiotApiConnector\Models\Region;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -33,3 +38,15 @@ uses(Tests\TestCase::class)->in('Feature');
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+
+function initFakeSummonerFetch(): array
+{
+    /** @var Region $region */
+    $region = Region::query()->where('name', 'euw1')->first();
+
+    $json = File::get(__DIR__ . '/Datasets/summoner.json');
+    $summonerArray = json_decode($json, true);
+    $summoner = SummonerAdapter::newFromApi($summonerArray, $region->id);
+
+    return [$region, $summoner, $json];
+}
