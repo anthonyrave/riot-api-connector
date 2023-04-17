@@ -2,6 +2,7 @@
 
 namespace RiotApiConnector;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
@@ -56,6 +57,10 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        App::macro('disableRiotApiConnectorCache', function () {
+            $this->app['config']->set('riot_api_connector.cache.enabled', false);
+        });
 
         if (app()->runningInConsole()) {
             $this->commands([

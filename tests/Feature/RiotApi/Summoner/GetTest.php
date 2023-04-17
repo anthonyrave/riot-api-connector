@@ -1,9 +1,64 @@
 <?php
 
-it('uses API if "cache" is disabled')->todo();
+use GuzzleHttp\UriTemplate\UriTemplate;
+use RiotApiConnector\Facades\RiotApi;
+use RiotApiConnector\Models\Summoner;
 
-it('uses API if "cache" is enabled but nothing found in DB')->todo();
+it('uses API if "cache" is disabled', function () {
+    app()->disableRiotApiConnectorCache();
 
-it('uses API if "cache" is enabled and data from DB is outdated')->todo();
+    [$region, $summoner, $json] = initFakeSummonerFetch();
 
-it('uses DB if "cache" is enabled and data from DB is recent')->todo();
+    $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
+        'encryptedSummonerId' => $summoner->summoner_id
+    ]);
+
+    $summoner->update([
+        'name' => 'from DB',
+    ]);
+
+    fakeRiotApiResponse($region, $endpoint, $json);
+
+    /** @var Summoner $summonerModel */
+    $summonerModel = RiotApi::summoner($region)->byId($summoner->summoner_id)->get();
+    expect($summonerModel)->toBeInstanceOf(Summoner::class)
+        ->and($summonerModel->name)->toBe('from API');
+});
+
+it('uses API if "cache" is enabled but nothing found in DB', function () {
+    [$region, $summoner, $json] = initFakeSummonerFetch();
+
+    $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
+        'encryptedSummonerId' => $summoner->summoner_id
+    ]);
+
+    $summonerId = $summoner->summoner_id;
+
+    $summoner->delete();
+
+    fakeRiotApiResponse($region, $endpoint, $json);
+
+    /** @var Summoner $summonerModel */
+    $summonerModel = RiotApi::summoner($region)->byId($summonerId)->get();
+    expect($summonerModel)->toBeInstanceOf(Summoner::class)
+        ->and($summonerModel->name)->toBe('from API');
+});
+
+it('uses DB if "cache" is enabled and data from DB is recent', function () {
+    [$region, $summoner, $json] = initFakeSummonerFetch();
+
+    $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
+        'encryptedSummonerId' => $summoner->summoner_id
+    ]);
+
+    $summoner->update([
+        'name' => 'from DB',
+    ]);
+
+    fakeRiotApiResponse($region, $endpoint, $json);
+
+    /** @var Summoner $summonerModel */
+    $summonerModel = RiotApi::summoner($region)->byId($summoner->summoner_id)->get();
+    expect($summonerModel)->toBeInstanceOf(Summoner::class)
+        ->and($summonerModel->name)->toBe('from DB');
+});

@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Adapters\SummonerAdapter;
 use RiotApiConnector\Models\Region;
 
@@ -49,4 +50,13 @@ function initFakeSummonerFetch(): array
     $summoner = SummonerAdapter::newFromApi($summonerArray, $region->id);
 
     return [$region, $summoner, $json];
+}
+
+function fakeRiotApiResponse(Region $region, string $endpoint, string $json): void
+{
+    $fullUrl = $region->name . '.' . config('riot.url') . $endpoint;
+
+    Http::fake([
+        $fullUrl => Http::response($json),
+    ]);
 }

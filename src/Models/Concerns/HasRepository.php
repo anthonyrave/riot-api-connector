@@ -11,6 +11,7 @@ trait HasRepository
     /**
      * Get a new repository instance for the model.
      *
+     * @param Region|null $region
      * @return Repository<static>
      *
      * @throws BindingResolutionException

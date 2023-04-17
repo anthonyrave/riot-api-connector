@@ -1,9 +1,7 @@
 <?php
 
 use GuzzleHttp\UriTemplate\UriTemplate;
-use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Facades\RiotApi;
-use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
 
 it('can be retrieved by ID from API', function () {
@@ -13,7 +11,7 @@ it('can be retrieved by ID from API', function () {
         'encryptedSummonerId' => $summoner->summoner_id
     ]);
 
-    fakeResponse($region, $endpoint, $json);
+    fakeRiotApiResponse($region, $endpoint, $json);
 
     expect(RiotApi::summoner($region)->byId($summoner->summoner_id)->fromApi())
         ->toBeInstanceOf(Summoner::class);
@@ -26,7 +24,7 @@ it('can be retrieved by name from API', function () {
         'summonerName' => $summoner->name
     ]);
 
-    fakeResponse($region, $endpoint, $json);
+    fakeRiotApiResponse($region, $endpoint, $json);
 
     expect(RiotApi::summoner($region)->byName($summoner->name)->fromApi())
         ->toBeInstanceOf(Summoner::class);
@@ -39,7 +37,7 @@ it('can be retrieved by account ID from API', function () {
         'encryptedAccountId' => $summoner->account_id
     ]);
 
-    fakeResponse($region, $endpoint, $json);
+    fakeRiotApiResponse($region, $endpoint, $json);
 
     expect(RiotApi::summoner($region)->byAccountId($summoner->account_id)->fromApi())
         ->toBeInstanceOf(Summoner::class);
@@ -52,17 +50,8 @@ it('can be retrieved by PUUID from API', function () {
         'encryptedPUUID' => $summoner->puuid
     ]);
 
-    fakeResponse($region, $endpoint, $json);
+    fakeRiotApiResponse($region, $endpoint, $json);
 
     expect(RiotApi::summoner($region)->byPuuid($summoner->puuid)->fromApi())
         ->toBeInstanceOf(Summoner::class);
 });
-
-function fakeResponse(Region $region, string $endpoint, string $json): void
-{
-    $fullUrl = $region->name . '.' . config('riot.url') . $endpoint;
-
-    Http::fake([
-        $fullUrl => Http::response($json),
-    ]);
-}
