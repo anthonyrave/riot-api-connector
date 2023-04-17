@@ -7,12 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Translatable\HasTranslations;
 
-/**
- * @property string name
- *
- * @method static truncate()
- * @method static Champion findOrFail(int $id)
- */
 class Champion extends Model
 {
     use HasTranslations;

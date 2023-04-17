@@ -31,10 +31,12 @@ class InstallCommand extends Command
         $envFiles = ['.env', '.env.example'];
 
         foreach ($envFiles as $envFile) {
-            $env = file_get_contents($this->laravel->basePath($envFile));
-            if (! str_contains($env, 'RIOT_API_KEY=')) {
-                $env .= "\nRIOT_API_KEY=\n";
-                file_put_contents($this->laravel->basePath($envFile), $env);
+            if (file_exists($this->laravel->basePath($envFile))) {
+                $env = file_get_contents($this->laravel->basePath($envFile));
+                if (! str_contains($env, 'RIOT_API_KEY=')) {
+                    $env .= "\nRIOT_API_KEY=\n";
+                    file_put_contents($this->laravel->basePath($envFile), $env);
+                }
             }
         }
     }

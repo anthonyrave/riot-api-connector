@@ -25,27 +25,23 @@ class FetchDataCommand extends Command
      */
     private string $version;
 
-    public function handle(): void
+    private array $dataTypes;
+
+    private bool $fetchAll = false;
+
+    public function handle(): int
     {
+        if (! $this->validate()) {
+            return 1;
+        }
         $this->retrieveLatestVersion();
 
-        $options = $this->option('data');
+        $this->fetchDataTypes();
 
-        if (empty($options)) {
-            $this->fetchAllDataTypes();
-        } else {
-            $this->fetchDataTypes($options);
-        }
         $this->newLine();
         $this->info('Done');
-    }
 
-    private function fetchAllDataTypes(): void
-    {
-        $this->line('Fetch all data types');
-        $this->withProgressBar(DataTypeEnum::cases(), function ($dataTypeEnum) {
-            $this->fetchDataType($dataTypeEnum);
-        });
+        return 0;
     }
 
     private function fetchDataType(DataTypeEnum $dataType): void
@@ -53,27 +49,51 @@ class FetchDataCommand extends Command
         DataDragon::driver($dataType->value)->update($this->version);
     }
 
-    private function fetchDataTypes(array $options): void
+    private function fetchDataTypes(): void
     {
-        $this->line('Fetch '.implode(', ', $options));
-        $this->withProgressBar($options, function ($option) {
-            $dataType = DataTypeEnum::tryFrom($option);
-
-            if ($dataType === null) {
-                $this->error('Data of type "'.$option.'" does not exist.');
-
-                return;
+        if ($this->fetchAll) {
+            $this->line('Fetch all data types');
+        } else {
+            $this->line('Data to fetch:');
+            foreach ($this->dataTypes as $dataType) {
+                $this->line('- '.$dataType->value);
             }
-
+        }
+        $this->withProgressBar($this->dataTypes, function ($dataType) {
             $this->fetchDataType($dataType);
         });
     }
 
-    private function retrieveLatestVersion()
+    private function retrieveLatestVersion(): void
     {
         $this->info('Retrieving latest version...');
-        $this->version = Http::get(config('data-dragon.data.versions'))->json()[0];
+        $this->version = Http::get(config('data_dragon.data.versions'))->json()[0];
         $this->comment($this->version);
         $this->newLine();
+    }
+
+    private function validate(): bool
+    {
+        $options = $this->option('data');
+
+        if (empty($options)) {
+            $this->fetchAll = true;
+            $this->dataTypes = DataTypeEnum::cases();
+
+            return true;
+        }
+
+        foreach ($options as $option) {
+            $dataType = DataTypeEnum::tryFrom($option);
+            if (null === $dataType) {
+                $this->error('Data of type "'.$option.'" does not exist.');
+
+                return false;
+            }
+
+            $this->dataTypes[] = $dataType;
+        }
+
+        return true;
     }
 }

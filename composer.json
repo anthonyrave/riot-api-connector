@@ -16,15 +16,26 @@
     ],
     "require": {
         "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^10.4",
         "spatie/laravel-translatable": "^6.4"
     },
     "require-dev": {
-        "laravel/pint": "^1.7"
+        "laravel/pint": "^1.7",
+        "orchestra/testbench": "^8.3",
+        "pestphp/pest": "^2.4",
+        "pestphp/pest-plugin-laravel": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "RiotApiConnector\\": "src/"
+            "RiotApiConnector\\": "src/",
+            "Database\\Factories\\": "database/factories",
+            "Database\\Seeders\\": "database/seeders"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "extra": {
@@ -35,7 +46,10 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
