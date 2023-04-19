@@ -8,7 +8,7 @@ it('can be retrieved by ID from API', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
-        'encryptedSummonerId' => $summoner->summoner_id
+        'encryptedSummonerId' => $summoner->summoner_id,
     ]);
 
     fakeRiotApiResponse($region, $endpoint, $json);
@@ -21,7 +21,7 @@ it('can be retrieved by name from API', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_name'), [
-        'summonerName' => $summoner->name
+        'summonerName' => $summoner->name,
     ]);
 
     fakeRiotApiResponse($region, $endpoint, $json);
@@ -34,7 +34,7 @@ it('can be retrieved by account ID from API', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_account_id'), [
-        'encryptedAccountId' => $summoner->account_id
+        'encryptedAccountId' => $summoner->account_id,
     ]);
 
     fakeRiotApiResponse($region, $endpoint, $json);
@@ -47,7 +47,7 @@ it('can be retrieved by PUUID from API', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_puuid'), [
-        'encryptedPUUID' => $summoner->puuid
+        'encryptedPUUID' => $summoner->puuid,
     ]);
 
     fakeRiotApiResponse($region, $endpoint, $json);

@@ -45,7 +45,7 @@ function initFakeSummonerFetch(): array
     /** @var Region $region */
     $region = Region::query()->where('name', 'euw1')->first();
 
-    $json = File::get(__DIR__ . '/Datasets/summoner.json');
+    $json = File::get(__DIR__.'/Datasets/summoner.json');
     $summonerArray = json_decode($json, true);
     $summoner = SummonerAdapter::newFromApi($summonerArray, $region->id);
 
@@ -54,7 +54,7 @@ function initFakeSummonerFetch(): array
 
 function fakeRiotApiResponse(Region $region, string $endpoint, string $json): void
 {
-    $fullUrl = $region->name . '.' . config('riot.url') . $endpoint;
+    $fullUrl = $region->name.'.'.config('riot.url').$endpoint;
 
     Http::fake([
         $fullUrl => Http::response($json),

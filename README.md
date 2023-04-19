@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/anthonyrave/riot-api-connector" target="_blank">
-        <img src="./art/logo-full-red.svg" width="400">
+        <img alt="Riot API Connector" src="./art/logo-full-red.svg" width="400">
     </a>
 </p>
 
@@ -17,6 +17,10 @@
 
 Riot API Connector is an in development tool to help [Laravel](https://laravel.com/) developers and [League of Legends](https://www.leagueoflegends.com/en-us/) 
 enjoyers to create applications based on [Riot's API](https://developer.riotgames.com/apis).
+
+## Documentation
+
+The Riot API Connector's documentation can be found on [this website](https://anthonyrave.github.io/riot-api-connector-docs/).
 
 ## License
 
