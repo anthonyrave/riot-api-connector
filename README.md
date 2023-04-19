@@ -20,7 +20,7 @@ enjoyers to create applications based on [Riot's API](https://developer.riotgame
 
 ## Documentation
 
-The Riot API Connector's documentation can be found on [GitHub Pages](https://anthonyrave.github.io/riot-api-connector-docs/).
+The Riot API Connector's documentation can be found on [this website](https://anthonyrave.github.io/riot-api-connector-docs/).
 
 ## License
 
