@@ -1,6 +1,6 @@
 {
     "name": "anthonyrave/riot-api-connector",
-    "version": "v0.3.0",
+    "version": "v0.4.0",
     "description": "A Laravel package to play with Riot Games' API.",
     "keywords": ["Laravel", "API", "Riot Games", "League Of Legends"],
     "license": "MIT",
