@@ -10,7 +10,7 @@ it('uses API if "cache" is disabled', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
-        'encryptedSummonerId' => $summoner->summoner_id
+        'encryptedSummonerId' => $summoner->summoner_id,
     ]);
 
     $summoner->update([
@@ -29,7 +29,7 @@ it('uses API if "cache" is enabled but nothing found in DB', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
-        'encryptedSummonerId' => $summoner->summoner_id
+        'encryptedSummonerId' => $summoner->summoner_id,
     ]);
 
     $summonerId = $summoner->summoner_id;
@@ -48,7 +48,7 @@ it('uses DB if "cache" is enabled and data from DB is recent', function () {
     [$region, $summoner, $json] = initFakeSummonerFetch();
 
     $endpoint = UriTemplate::expand(config('riot.endpoints.summoner.by_id'), [
-        'encryptedSummonerId' => $summoner->summoner_id
+        'encryptedSummonerId' => $summoner->summoner_id,
     ]);
 
     $summoner->update([
