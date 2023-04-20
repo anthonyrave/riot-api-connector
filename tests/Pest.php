@@ -47,7 +47,7 @@ function initFakeSummonerFetch(): array
 
     $json = File::get(__DIR__.'/Datasets/summoner.json');
     $summonerArray = json_decode($json, true);
-    $summoner = SummonerAdapter::newFromApi($summonerArray, $region->id);
+    $summoner = SummonerAdapter::newFromApi($summonerArray, $region);
 
     return [$region, $summoner, $json];
 }

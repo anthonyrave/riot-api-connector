@@ -13,7 +13,7 @@ it('can be retrieved by ID from API', function () {
 
     fakeRiotApiResponse($region, $endpoint, $json);
 
-    expect(RiotApi::summoner($region)->byId($summoner->summoner_id)->fromApi())
+    expect(RiotApi::summoner($region)->byId($summoner)->fromApi())
         ->toBeInstanceOf(Summoner::class);
 });
 
@@ -26,7 +26,7 @@ it('can be retrieved by name from API', function () {
 
     fakeRiotApiResponse($region, $endpoint, $json);
 
-    expect(RiotApi::summoner($region)->byName($summoner->name)->fromApi())
+    expect(RiotApi::summoner($region)->byName($summoner)->fromApi())
         ->toBeInstanceOf(Summoner::class);
 });
 
@@ -39,7 +39,7 @@ it('can be retrieved by account ID from API', function () {
 
     fakeRiotApiResponse($region, $endpoint, $json);
 
-    expect(RiotApi::summoner($region)->byAccountId($summoner->account_id)->fromApi())
+    expect(RiotApi::summoner($region)->byAccountId($summoner)->fromApi())
         ->toBeInstanceOf(Summoner::class);
 });
 
@@ -52,6 +52,6 @@ it('can be retrieved by PUUID from API', function () {
 
     fakeRiotApiResponse($region, $endpoint, $json);
 
-    expect(RiotApi::summoner($region)->byPuuid($summoner->puuid)->fromApi())
+    expect(RiotApi::summoner($region)->byPuuid($summoner)->fromApi())
         ->toBeInstanceOf(Summoner::class);
 });
