@@ -5,8 +5,14 @@ namespace RiotApiConnector\Models\Champion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use RiotApiConnector\Models\Mastery;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @property int $id
+ * @property int $key
+ * @property string $riot_id
+ */
 class Champion extends Model
 {
     use HasTranslations;
@@ -40,5 +46,10 @@ class Champion extends Model
     public function tags(): HasMany
     {
         return $this->hasMany(ChampionTag::class);
+    }
+
+    public function masteries(): HasMany
+    {
+        return $this->hasMany(Mastery::class);
     }
 }

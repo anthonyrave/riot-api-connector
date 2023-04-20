@@ -5,6 +5,7 @@ namespace RiotApiConnector\Http\Requests;
 use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Models\Region;
 
+// TODO Handle Request exceptions and add hints (API Token...)
 class PendingRequest
 {
     public string $endpoint;

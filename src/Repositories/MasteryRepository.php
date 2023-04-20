@@ -2,14 +2,18 @@
 
 namespace RiotApiConnector\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use RiotApiConnector\Adapters\MasteryAdapter;
+use RiotApiConnector\Models\Champion\Champion;
 use RiotApiConnector\Models\Mastery;
 use RiotApiConnector\Models\Summoner;
 
 class MasteryRepository extends Repository
 {
     protected string $model = Mastery::class;
+
+    protected ?Champion $champion;
 
     protected ?Summoner $summoner;
 
@@ -28,12 +32,13 @@ class MasteryRepository extends Repository
         return $this;
     }
 
-    public function byChampion(int $championId): static
+    public function byChampion(Champion $champion): static
     {
+        $this->champion = $champion;
         $this->request->endpoint = config('riot.endpoints.mastery.by_champion');
-        $this->request->url_params['championId'] = $championId;
+        $this->request->url_params['championId'] = $this->champion->key;
 
-        $this->query->where('champion_id', $championId);
+        $this->query->where('champion_id', $champion->id);
 
         return $this;
     }
@@ -49,11 +54,11 @@ class MasteryRepository extends Repository
         return $this;
     }
 
-    public function fromApi(): Model
+    public function fromApi(): Model|Collection
     {
         $data = $this->request->fetch();
         /** @var MasteryAdapter $adapter */
         $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
-        return $adapter::newFromApi($data, $this->summoner);
+        return $adapter::newFromApi($data, $this->summoner, $this->champion ?? null);
     }
 }

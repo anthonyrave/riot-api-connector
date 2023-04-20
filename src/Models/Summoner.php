@@ -5,6 +5,7 @@ namespace RiotApiConnector\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use RiotApiConnector\Models\Concerns\Fetchable;
 use RiotApiConnector\Models\Concerns\HasRepository;
 
@@ -34,5 +35,10 @@ class Summoner extends Model
     public function region(): BelongsTo
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function masteries(): HasMany
+    {
+        return $this->hasMany(Mastery::class);
     }
 }

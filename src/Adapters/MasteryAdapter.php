@@ -3,18 +3,41 @@
 namespace RiotApiConnector\Adapters;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use RiotApiConnector\Models\Champion\Champion;
 use RiotApiConnector\Models\Mastery;
 use RiotApiConnector\Models\Summoner;
 
 class MasteryAdapter
 {
-    public static function newFromApi(array $data, Summoner $summoner): Mastery|Collection
+    public static function newFromApi(array $data, Summoner $summoner, ?Champion $champion = null): Mastery|Collection
     {
-        // TODO Check if $data is a list of masteries or a mastery
+        if (Arr::isAssoc($data)) {
+            return static::newMastery($data, $summoner, $champion);
+        }
+
+        return self::newMasteryCollection($data, $summoner);
+    }
+
+    protected static function newMasteryCollection(array $data, Summoner $summoner): Collection
+    {
+        $masteryCollection = new Collection();
+        foreach ($data as $datum) {
+            $masteryCollection->push(static::newMastery($datum, $summoner));
+        }
+
+        return $masteryCollection;
+    }
+
+    protected static function newMastery(array $data, Summoner $summoner, ?Champion $champion = null): Mastery
+    {
+        if ($champion === null) {
+            $champion = Champion::query()->where('key', $data['championId'])->first();
+        }
 
         $params = [
-            'champion_id' => $data['championId'],
+            'champion_id' => $champion->id,
             'summoner_id' => $summoner->id,
             'champion_level' => $data['championLevel'],
             'champion_points' => $data['championPoints'],
@@ -28,7 +51,7 @@ class MasteryAdapter
         if (config('riot_api_connector.cache.enabled')) {
             return Mastery::updateOrCreate(
                 [
-                    'champion_id' => $data['championId'],
+                    'champion_id' => $champion->id,
                     'summoner_id' => $summoner->id,
                 ],
                 $params
