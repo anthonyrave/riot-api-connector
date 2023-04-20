@@ -4,6 +4,7 @@ namespace RiotApiConnector\Repositories;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RiotApiConnector\Adapters\SummonerAdapter;
@@ -84,7 +85,7 @@ abstract class Repository
         return $this;
     }
 
-    public function get(): Model
+    public function get(): Model|Collection
     {
         if (! config('riot_api_connector.cache.enabled')) {
             return $this->fromApi();
@@ -99,14 +100,13 @@ abstract class Repository
         return $model;
     }
 
-    public function fromApi(): Model
+    public function fromApi(): Model|Collection
     {
         $data = $this->request->fetch();
         /** @var SummonerAdapter $adapter */
         $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
-        $model = $adapter::newFromApi($data, $this->request->region->id);
-
-        return $model;
+        // TODO Possibility to add parameters through repositories
+        return $adapter::newFromApi($data, $this->request->region);
     }
 
     public static function resolveAdapterName(string $repositoryName): string
@@ -122,8 +122,9 @@ abstract class Repository
         return $packageNamespace.'Adapters\\'.$requestName;
     }
 
-    public function fromDb(): ?Model
+    public function fromDb(): Model|Collection|null
     {
+        // TODO Maybe first is a bit restrictive --> return $this->query and then add ->first(), ->all() ... ?
         return $this->query->first();
     }
 }

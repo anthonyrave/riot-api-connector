@@ -9,6 +9,7 @@ use RiotApiConnector\Models\Concerns\Fetchable;
 use RiotApiConnector\Models\Concerns\HasRepository;
 
 /**
+ * @property int $id
  * @property int $region_id
  * @property string $summoner_id
  * @property string $account_id

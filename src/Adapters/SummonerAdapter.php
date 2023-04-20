@@ -3,14 +3,15 @@
 namespace RiotApiConnector\Adapters;
 
 use Illuminate\Support\Carbon;
+use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
 
 class SummonerAdapter
 {
-    public static function newFromApi(array $data, int $regionId): Summoner
+    public static function newFromApi(array $data, Region $region): Summoner
     {
         $params = [
-            'region_id' => $regionId,
+            'region_id' => $region->id,
             'summoner_id' => $data['id'],
             'account_id' => $data['accountId'],
             'puuid' => $data['puuid'],
@@ -23,7 +24,7 @@ class SummonerAdapter
         if (config('riot_api_connector.cache.enabled')) {
             return Summoner::updateOrCreate(
                 [
-                    'region_id' => $regionId,
+                    'region_id' => $region->id,
                     'name' => $data['name'],
                 ],
                 $params

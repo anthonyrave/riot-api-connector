@@ -15,7 +15,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Url
+    | URL
     |--------------------------------------------------------------------------
     |
     | Riot Games API base url
@@ -72,6 +72,63 @@ return [
             'by_id' => '/lol/match/v5/matches/{matchId}',
             'by_puuid' => '/lol/match/v5/matches/by-puuid/{puuid}/ids',
             'timeline' => '/lol/match/v5/matches/{matchId}/timeline',
+        ],
+        'mastery' => [
+            'default' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}',
+            'top' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/top',
+            'by_champion' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/by-champion/{championId}',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Champion masteries
+    |--------------------------------------------------------------------------
+    |
+    | Points required for any level and cumulated
+    |
+    */
+
+    'masteries' => [
+        0 => [
+            'required' => 0,
+            'cumulated' => 0,
+            'tokens' => 0,
+        ],
+        1 => [
+            'required' => 1800,
+            'cumulated' => 1800,
+            'tokens' => 0,
+        ],
+        2 => [
+            'required' => 4200,
+            'cumulated' => 6000,
+            'tokens' => 0,
+        ],
+        3 => [
+            'required' => 6600,
+            'cumulated' => 12600,
+            'tokens' => 0,
+        ],
+        4 => [
+            'required' => 9000,
+            'cumulated' => 21600,
+            'tokens' => 0,
+        ],
+        5 => [
+            'required' => 0,
+            'cumulated' => 0,
+            'tokens' => 2,
+        ],
+        6 => [
+            'required' => 0,
+            'cumulated' => 0,
+            'tokens' => 3,
+        ],
+        7 => [
+            'required' => 0,
+            'cumulated' => 0,
+            'tokens' => 0,
         ],
     ],
 
