@@ -11,7 +11,7 @@ use RiotApiConnector\Models\Summoner;
 
 class MasteryAdapter
 {
-    public static function newFromApi(array $data, Summoner $summoner, ?Champion $champion = null): Mastery|Collection
+    public static function newFromApi(array $data, ?Summoner $summoner = null, ?Champion $champion = null): Mastery|Collection
     {
         if (Arr::isAssoc($data)) {
             return static::newMastery($data, $summoner, $champion);

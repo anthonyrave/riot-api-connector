@@ -11,16 +11,14 @@ trait HasRepository
     /**
      * Get a new repository instance for the model.
      *
-     * @param Region|null $region
+     * @param mixed ...$params
      * @return Repository<static>
      *
      * @throws BindingResolutionException
      */
-    public static function repository(?Region $region = null): Repository
+    public static function repository(...$params): Repository
     {
-        $repository = static::newRepository() ?: Repository::repositoryForModel(get_called_class());
-
-        return $repository->region($region);
+        return static::newRepository(...$params) ?: Repository::repositoryForModel(get_called_class());
     }
 
     /**

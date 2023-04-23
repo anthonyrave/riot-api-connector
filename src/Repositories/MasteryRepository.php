@@ -17,19 +17,13 @@ class MasteryRepository extends Repository
 
     protected ?Summoner $summoner;
 
-    public function summoner(?Summoner $summoner = null): static
+    public function summoner(Summoner $summoner): static
     {
-        if ($summoner === null) {
-            return $this;
-        }
-
         $this->summoner = $summoner;
+        $this->request->endpoint = config('riot.endpoints.mastery.default');
         $this->request->url_params['encryptedSummonerId'] = $this->summoner->summoner_id;
         $this->query->where('summoner_id', $this->summoner->id);
-
-        $this->request->endpoint = config('riot.endpoints.mastery.default');
-
-        return $this;
+        return $this->collection();
     }
 
     public function byChampion(Champion $champion): static
@@ -40,7 +34,7 @@ class MasteryRepository extends Repository
 
         $this->query->where('champion_id', $champion->id);
 
-        return $this;
+        return $this->model();
     }
 
     public function top(?int $count = null): static
@@ -51,7 +45,7 @@ class MasteryRepository extends Repository
             $this->request->endpoint .= '?count='.$count;
         }
 
-        return $this;
+        return $this->collection();
     }
 
     public function fromApi(): Model|Collection

@@ -36,16 +36,14 @@ class Mastery extends Model
     }
 
     /**
-     * Get a new repository instance for the model.
-     *
-     * @param Region|null $region
-     * @param Summoner|null $summoner
+     * @param Region $region
+     * @param Summoner $summoner
      * @return MasteryRepository<static>
      *
      * @throws BindingResolutionException
      */
-    public static function repository(?Region $region = null, ?Summoner $summoner = null): MasteryRepository
+    public static function newRepository(Region $region, Summoner $summoner): MasteryRepository
     {
-        return MasteryRepository::new()->region($region)->summoner($summoner);
+        return MasteryRepository::new()->region(region: $region, useInQuery: false)->summoner(summoner: $summoner);
     }
 }

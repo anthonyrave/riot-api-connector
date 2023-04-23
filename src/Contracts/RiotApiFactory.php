@@ -11,5 +11,5 @@ interface RiotApiFactory
 {
     public static function summoner(Region $region): SummonerRepository;
 
-    public static function mastery(Region $region, Summoner $summoner): MasteryRepository;
+    public static function mastery(Summoner $summoner): MasteryRepository;
 }

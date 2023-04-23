@@ -11,8 +11,7 @@ use RiotApiConnector\Repositories\SummonerRepository;
 
 /**
  * @method SummonerRepository summoner(Region $region)
- * @method MasteryRepository mastery(Region $region, Summoner $summoner)
- * @method bool useCache()
+ * @method MasteryRepository mastery(Summoner $summoner)
  */
 class RiotApi extends Facade
 {

@@ -2,12 +2,15 @@
 
 namespace RiotApiConnector\Models;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use RiotApiConnector\Models\Concerns\Fetchable;
 use RiotApiConnector\Models\Concerns\HasRepository;
+use RiotApiConnector\Repositories\Repository;
+use RiotApiConnector\Repositories\SummonerRepository;
 
 /**
  * @property int $id
@@ -18,6 +21,7 @@ use RiotApiConnector\Models\Concerns\HasRepository;
  * @property string $name
  * @property int profile_icon_id
  * @property int revision_date
+ * @property Region $region
  */
 class Summoner extends Model
 {
@@ -40,5 +44,15 @@ class Summoner extends Model
     public function masteries(): HasMany
     {
         return $this->hasMany(Mastery::class);
+    }
+
+    /**
+     * @param Region $region
+     * @return Repository
+     * @throws BindingResolutionException
+     */
+    protected static function newRepository(Region $region): Repository
+    {
+        return SummonerRepository::new()->region(region: $region);
     }
 }

@@ -13,6 +13,8 @@ use RiotApiConnector\Repositories\SummonerRepository;
 class RiotApi implements RiotApiFactory
 {
     /**
+     * @param Region $region
+     * @return SummonerRepository
      * @throws BindingResolutionException
      */
     public static function summoner(Region $region): SummonerRepository
@@ -21,10 +23,12 @@ class RiotApi implements RiotApiFactory
     }
 
     /**
+     * @param Summoner $summoner
+     * @return MasteryRepository
      * @throws BindingResolutionException
      */
-    public static function mastery(Region $region, Summoner $summoner): MasteryRepository
+    public static function mastery(Summoner $summoner): MasteryRepository
     {
-        return Mastery::repository($region, $summoner);
+        return Mastery::repository($summoner->region, $summoner);
     }
 }

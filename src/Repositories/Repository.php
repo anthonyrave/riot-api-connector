@@ -13,9 +13,11 @@ use RiotApiConnector\Models\Region;
 
 abstract class Repository
 {
+    protected static string $namespace = 'RiotApiConnector\\';
+
     protected static string $adapter;
 
-    protected static string $namespace = 'RiotApiConnector\\';
+    protected bool $isCollection = false;
 
     protected string $model;
 
@@ -26,16 +28,87 @@ abstract class Repository
     }
 
     /**
-     * @param  class-string<Model>  $modelName
-     *
      * @throws BindingResolutionException
      */
-    public static function repositoryForModel(string $modelName): Repository
+    public static function new(): Repository
     {
-        /** @var Repository $repository */
-        $repository = static::resolveRepositoryName($modelName);
+        return app()->make(get_called_class());
+    }
 
-        return $repository::new();
+    /**
+     * @param Region|null $region
+     * @param bool $useInQuery
+     * @return $this
+     */
+    public function region(?Region $region = null, bool $useInQuery = true): static
+    {
+        if ($region === null) {
+            return $this;
+        }
+
+        $this->request->region = $region;
+
+        if ($useInQuery) {
+            $this->query->where('region_id', $region->id);
+        }
+
+        return $this;
+    }
+
+    public function get(): Model|Collection
+    {
+        if (! config('riot_api_connector.cache.enabled')) {
+            return $this->fromApi();
+        }
+
+        $result = $this->fromDb();
+
+        if ($this->isExpired($result)) {
+            return $this->fromApi();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Collection|Model $result
+     * @return bool
+     */
+    public function isExpired(Model|Collection $result): bool
+    {
+        if ($this->isCollection) {
+            return $result->contains(function ($model) {
+                return $model->expired;
+            });
+        }
+
+        return $result->expired;
+    }
+
+    public function fromApi(): Model|Collection
+    {
+        $data = $this->request->fetch();
+        /** @var SummonerAdapter $adapter */
+        $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
+        return $adapter::newFromApi($data, $this->request->region);
+    }
+
+    public function fromDb(): Model|Collection
+    {
+        return $this->isCollection ? $this->query->get() : $this->query->first();
+    }
+
+    public static function resolveAdapterName(string $repositoryName): string
+    {
+        $packageNamespace = static::$namespace;
+
+        $repositoryName = Str::startsWith($repositoryName, $packageNamespace.'Repositories\\')
+            ? Str::after($repositoryName, $packageNamespace.'Repositories\\')
+            : Str::after($repositoryName, $packageNamespace);
+
+        $requestName = Str::before($repositoryName, 'Repository').'Adapter';
+
+        return $packageNamespace.'Adapters\\'.$requestName;
     }
 
     /**
@@ -53,78 +126,27 @@ abstract class Repository
     }
 
     /**
+     * @param  class-string<Model>  $modelName
+     *
      * @throws BindingResolutionException
      */
-    public static function new(): Repository
+    public static function repositoryForModel(string $modelName): Repository
     {
-        return app()->make(get_called_class());
+        /** @var Repository $repository */
+        $repository = static::resolveRepositoryName($modelName);
+
+        return $repository::new();
     }
 
-    public static function resolveModelName(string $repositoryName): string
+    public function collection(): static
     {
-        $packageNamespace = static::$namespace;
-
-        $repositoryName = Str::startsWith($repositoryName, $packageNamespace.'Repositories\\')
-            ? Str::after($repositoryName, $packageNamespace.'Repositories\\')
-            : Str::after($repositoryName, $packageNamespace);
-
-        $modelName = Str::before($repositoryName, 'Repository');
-
-        return $packageNamespace.'Models\\'.$modelName;
-    }
-
-    public function region(?Region $region = null): static
-    {
-        if ($region === null) {
-            return $this;
-        }
-
-        $this->request->region = $region;
-        $this->query->where('region_id', $region->id);
-
+        $this->isCollection = true;
         return $this;
     }
 
-    public function get(): Model|Collection
+    public function model(): static
     {
-        if (! config('riot_api_connector.cache.enabled')) {
-            return $this->fromApi();
-        }
-
-        $model = $this->fromDb();
-
-        if (! $model || $model->expired) {
-            return $this->fromApi();
-        }
-
-        return $model;
-    }
-
-    public function fromApi(): Model|Collection
-    {
-        $data = $this->request->fetch();
-        /** @var SummonerAdapter $adapter */
-        $adapter = static::$adapter ?? self::resolveAdapterName(get_called_class());
-        // TODO Possibility to add parameters through repositories
-        return $adapter::newFromApi($data, $this->request->region);
-    }
-
-    public static function resolveAdapterName(string $repositoryName): string
-    {
-        $packageNamespace = static::$namespace;
-
-        $repositoryName = Str::startsWith($repositoryName, $packageNamespace.'Repositories\\')
-            ? Str::after($repositoryName, $packageNamespace.'Repositories\\')
-            : Str::after($repositoryName, $packageNamespace);
-
-        $requestName = Str::before($repositoryName, 'Repository').'Adapter';
-
-        return $packageNamespace.'Adapters\\'.$requestName;
-    }
-
-    public function fromDb(): Model|Collection|null
-    {
-        // TODO Maybe first is a bit restrictive --> return $this->query and then add ->first(), ->all() ... ?
-        return $this->query->first();
+        $this->isCollection = false;
+        return $this;
     }
 }
