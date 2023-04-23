@@ -32,14 +32,12 @@ it('uses API if "cache" is enabled but nothing found in DB', function () {
         'encryptedSummonerId' => $summoner->summoner_id,
     ]);
 
-    $summonerId = $summoner->summoner_id;
-
     $summoner->delete();
 
     fakeRiotApiResponse($region, $endpoint, $json);
 
     /** @var Summoner $summonerModel */
-    $summonerModel = RiotApi::summoner($region)->byId($summonerId)->get();
+    $summonerModel = RiotApi::summoner($region)->byId($summoner->summoner_id)->get();
     expect($summonerModel)->toBeInstanceOf(Summoner::class)
         ->and($summonerModel->name)->toBe('from API');
 });

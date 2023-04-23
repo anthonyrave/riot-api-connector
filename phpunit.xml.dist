@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
-         backupGlobals="false"
-         beStrictAboutTestsThatDoNotTestAnything="true"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         cacheDirectory=".phpunit.cache"
-         backupStaticProperties="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" backupGlobals="false" beStrictAboutTestsThatDoNotTestAnything="true" bootstrap="vendor/autoload.php" colors="true" processIsolation="false" stopOnError="false" stopOnFailure="false" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+    <coverage/>
     <testsuites>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
+        <testsuite name="default">
+            <directory suffix=".php">./tests</directory>
         </testsuite>
     </testsuites>
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
     <php>
         <env name="APP_ENV" value="self-testing"/>
         <env name="APP_KEY" value="base64:yk+bUVuZa1p86Dqjk9OjVK2R1pm6XHxC6xEKFq8utH0="/>
@@ -27,4 +13,9 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
     </php>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
 </phpunit>

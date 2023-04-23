@@ -9,7 +9,9 @@ use RiotApiConnector\Console\InstallCommand;
 use RiotApiConnector\Contracts\DataDragonFactory;
 use RiotApiConnector\Contracts\RiotApiFactory;
 use RiotApiConnector\Http\Requests\PendingRequest;
+use RiotApiConnector\Models\Mastery;
 use RiotApiConnector\Models\Summoner;
+use RiotApiConnector\Repositories\MasteryRepository;
 use RiotApiConnector\Repositories\SummonerRepository;
 
 class RiotApiConnectorServiceProvider extends ServiceProvider
@@ -42,6 +44,14 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
             concrete: fn ($app) => new SummonerRepository(
                 $app->make(PendingRequest::class),
                 Summoner::query()
+            )
+        );
+
+        $this->app->bind(
+            abstract: MasteryRepository::class,
+            concrete: fn ($app) => new MasteryRepository(
+                $app->make(PendingRequest::class),
+                Mastery::query()
             )
         );
     }

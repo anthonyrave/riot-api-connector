@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use RiotApiConnector\Adapters\SummonerAdapter;
+use RiotApiConnector\Models\Region;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,12 +16,7 @@
 |
 */
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use RiotApiConnector\Adapters\SummonerAdapter;
-use RiotApiConnector\Models\Region;
-
-uses(Tests\TestCase::class)->in('Feature');
+uses(Tests\TestCase::class)->in('./');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +45,9 @@ function initFakeSummonerFetch(): array
     /** @var Region $region */
     $region = Region::query()->where('name', 'euw1')->first();
 
-    $json = File::get(__DIR__.'/Datasets/summoner.json');
+    $json = File::get(__DIR__.'/Fixtures/summoner.json');
     $summonerArray = json_decode($json, true);
-    $summoner = SummonerAdapter::newFromApi($summonerArray, $region->id);
+    $summoner = SummonerAdapter::newFromApi($summonerArray, $region);
 
     return [$region, $summoner, $json];
 }

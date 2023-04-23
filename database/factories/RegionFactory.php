@@ -12,7 +12,7 @@ class RegionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(config('riot.regions')),
+            'name' => fake()->randomElement(config('riot.regions')),
         ];
     }
 }
