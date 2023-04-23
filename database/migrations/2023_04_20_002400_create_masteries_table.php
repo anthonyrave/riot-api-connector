@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('masteries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('champion_id')
-                // TODO not sure this is a good idea
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

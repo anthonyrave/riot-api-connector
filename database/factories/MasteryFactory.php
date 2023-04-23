@@ -12,24 +12,24 @@ class MasteryFactory extends Factory
     public function definition(): array
     {
         $maxLevel = count(config('riot.masteries') - 1);
-        $level = $this->faker->numberBetween(0, $maxLevel);
+        $level = fake()->numberBetween(0, $maxLevel);
         $pointsSinceLastLevel = $this->fakePointsSinceLastLevel($level);
         $pointsUntilNextLevel = $this->fakePointsUntilNextLevel($level, $pointsSinceLastLevel);
 
         return [
             'champion_level' => $level,
             'champion_points' => $this->fakeChampionPoints($level, $pointsSinceLastLevel),
-            'last_play_time' => $level !== 0 ? $this->faker->dateTime() : null,
+            'last_play_time' => $level !== 0 ? fake()->dateTime() : null,
             'champion_points_since_last_level' => $pointsSinceLastLevel,
             'champion_points_until_next_level' => $pointsUntilNextLevel,
-            'chest_granted' => $level === 0 || $this->faker->boolean(),
+            'chest_granted' => $level === 0 || fake()->boolean(),
             'tokens_earned' => $this->fakeTokensEarned($level),
         ];
     }
 
     private function fakePointsSinceLastLevel(int $level): int
     {
-        return $this->faker->numberBetween(0, config('riot.masteries')[$level]['required']);
+        return fake()->numberBetween(0, config('riot.masteries')[$level]['required']);
     }
 
     private function fakePointsUntilNextLevel(int $level, int $points): int
@@ -44,6 +44,6 @@ class MasteryFactory extends Factory
 
     private function fakeTokensEarned(int $level): int
     {
-        return $this->faker->numberBetween(0, config('riot.masteries')[$level]['tokens']);
+        return fake()->numberBetween(0, config('riot.masteries')[$level]['tokens']);
     }
 }

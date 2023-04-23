@@ -63,7 +63,7 @@ abstract class Repository
 
         $result = $this->fromDb();
 
-        if ($this->isExpired($result)) {
+        if (! $result || $this->isExpired($result)) {
             return $this->fromApi();
         }
 
@@ -93,7 +93,7 @@ abstract class Repository
         return $adapter::newFromApi($data, $this->request->region);
     }
 
-    public function fromDb(): Model|Collection
+    public function fromDb(): Model|Collection|null
     {
         return $this->isCollection ? $this->query->get() : $this->query->first();
     }

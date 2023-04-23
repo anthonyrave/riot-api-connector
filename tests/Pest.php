@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use RiotApiConnector\Adapters\SummonerAdapter;
+use RiotApiConnector\Models\Region;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,12 +16,7 @@
 |
 */
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use RiotApiConnector\Adapters\SummonerAdapter;
-use RiotApiConnector\Models\Region;
-
-uses(Tests\TestCase::class)->in('Feature');
+uses(Tests\TestCase::class)->in('./');
 
 /*
 |--------------------------------------------------------------------------

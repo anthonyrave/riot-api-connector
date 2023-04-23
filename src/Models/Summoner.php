@@ -2,6 +2,7 @@
 
 namespace RiotApiConnector\Models;
 
+use Database\Factories\SummonerFactory;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,16 +37,6 @@ class Summoner extends Model
         'region_id', 'summoner_id', 'account_id', 'puuid', 'name', 'profile_icon_id', 'revision_date', 'summoner_level',
     ];
 
-    public function region(): BelongsTo
-    {
-        return $this->belongsTo(Region::class);
-    }
-
-    public function masteries(): HasMany
-    {
-        return $this->hasMany(Mastery::class);
-    }
-
     /**
      * @param Region $region
      * @return Repository
@@ -54,5 +45,20 @@ class Summoner extends Model
     protected static function newRepository(Region $region): Repository
     {
         return SummonerRepository::new()->region(region: $region);
+    }
+
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    protected static function newFactory(): SummonerFactory
+    {
+        return SummonerFactory::new();
+    }
+
+    public function masteries(): HasMany
+    {
+        return $this->hasMany(Mastery::class);
     }
 }

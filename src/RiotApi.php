@@ -29,6 +29,6 @@ class RiotApi implements RiotApiFactory
      */
     public static function mastery(Summoner $summoner): MasteryRepository
     {
-        return Mastery::repository($summoner->region, $summoner);
+        return Mastery::repository($summoner);
     }
 }
