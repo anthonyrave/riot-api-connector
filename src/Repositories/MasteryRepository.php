@@ -4,7 +4,9 @@ namespace RiotApiConnector\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\RequestException;
 use RiotApiConnector\Adapters\MasteryAdapter;
+use RiotApiConnector\Exceptions\InvalidApiKeyException;
 use RiotApiConnector\Models\Champion\Champion;
 use RiotApiConnector\Models\Mastery;
 use RiotApiConnector\Models\Summoner;
@@ -48,6 +50,10 @@ class MasteryRepository extends Repository
         return $this->collection();
     }
 
+    /**
+     * @throws InvalidApiKeyException
+     * @throws RequestException
+     */
     public function fromApi(): Model|Collection
     {
         $data = $this->request->fetch();
