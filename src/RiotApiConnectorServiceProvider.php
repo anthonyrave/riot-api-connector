@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use RiotApiConnector\Console\FetchDataCommand;
 use RiotApiConnector\Console\InstallCommand;
+use RiotApiConnector\Console\UpdateApiKeyCommand;
 use RiotApiConnector\Contracts\DataDragonFactory;
 use RiotApiConnector\Contracts\RiotApiFactory;
 use RiotApiConnector\Http\Requests\PendingRequest;
@@ -76,6 +77,7 @@ class RiotApiConnectorServiceProvider extends ServiceProvider
             $this->commands([
                 InstallCommand::class,
                 FetchDataCommand::class,
+                UpdateApiKeyCommand::class,
             ]);
         }
     }
