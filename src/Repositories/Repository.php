@@ -63,7 +63,7 @@ abstract class Repository
 
         $result = $this->fromDb();
 
-        if (! $result || $this->isExpired($result)) {
+        if (! $result || $result->isEmpty() || $this->isExpired($result)) {
             return $this->fromApi();
         }
 
