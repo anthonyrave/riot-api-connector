@@ -43,6 +43,6 @@ function fakeDataDragonChampionFetch(): void
 
     Http::fake([
         config('data_dragon.data.versions') => Http::response(['13.7.1', '13.6.1']),
-        $championsUrl => Http::response(File::get(__DIR__.'/../../Fixtures/champions.json')),
+        $championsUrl => Http::response(File::get(__DIR__.'/../Fixtures/champions.json')),
     ]);
 }
