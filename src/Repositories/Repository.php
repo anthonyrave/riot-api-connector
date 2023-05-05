@@ -30,9 +30,9 @@ abstract class Repository
     /**
      * @throws BindingResolutionException
      */
-    public static function new(): Repository
+    public static function new(array $params = []): Repository
     {
-        return app()->make(get_called_class());
+        return app()->make(get_called_class(), $params);
     }
 
     /**
@@ -63,7 +63,7 @@ abstract class Repository
 
         $result = $this->fromDb();
 
-        if (! $result || $result->isEmpty() || $this->isExpired($result)) {
+        if (! $result || ($result instanceof Collection && $result->isEmpty()) || $this->isExpired($result)) {
             return $this->fromApi();
         }
 
@@ -130,12 +130,12 @@ abstract class Repository
      *
      * @throws BindingResolutionException
      */
-    public static function repositoryForModel(string $modelName): Repository
+    public static function repositoryForModel(string $modelName, array $params = []): Repository
     {
         /** @var Repository $repository */
         $repository = static::resolveRepositoryName($modelName);
 
-        return $repository::new();
+        return $repository::new($params);
     }
 
     public function collection(): static

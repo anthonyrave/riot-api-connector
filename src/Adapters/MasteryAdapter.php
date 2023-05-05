@@ -3,42 +3,35 @@
 namespace RiotApiConnector\Adapters;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use RiotApiConnector\Models\Champion\Champion;
 use RiotApiConnector\Models\Mastery;
 use RiotApiConnector\Models\Summoner;
 
-class MasteryAdapter
+class MasteryAdapter extends Adapter
 {
-    public static function newFromApi(array $data, ?Summoner $summoner = null, ?Champion $champion = null): Mastery|Collection
-    {
-        if (Arr::isAssoc($data)) {
-            return static::newMastery($data, $summoner, $champion);
-        }
+    protected ?Champion $champion;
+    protected ?Summoner $summoner = null;
 
-        return self::newMasteryCollection($data, $summoner);
+    public function newFromApi(array $data): Mastery|Collection
+    {
+        if (isset($data['championId'])) {
+            return $this->newMastery($data);
+        }
+        return $this->newMasteryCollection($data);
     }
 
-    protected static function newMasteryCollection(array $data, Summoner $summoner): Collection
+    protected function newMastery(array $data): Mastery
     {
-        $masteryCollection = new Collection();
-        foreach ($data as $datum) {
-            $masteryCollection->push(static::newMastery($datum, $summoner));
-        }
+        $this->champion = Champion::query()->where('key', $data['championId'])->first();
 
-        return $masteryCollection;
-    }
-
-    protected static function newMastery(array $data, Summoner $summoner, ?Champion $champion = null): Mastery
-    {
-        if ($champion === null) {
-            $champion = Champion::query()->where('key', $data['championId'])->first();
+        if ($this->summoner === null) {
+            $this->summoner = Summoner::query()->whereEncryptedSummonerId($data['summonerId'])->first();
         }
 
         $params = [
-            'champion_id' => $champion->id,
-            'summoner_id' => $summoner->id,
+            'champion_id' => $this->champion->id,
+            'summoner_id' => $this->summoner->id,
             'champion_level' => $data['championLevel'],
             'champion_points' => $data['championPoints'],
             'last_play_time' => Carbon::createFromTimestamp(substr($data['lastPlayTime'], 0, 10)),
@@ -51,13 +44,23 @@ class MasteryAdapter
         if (config('riot_api_connector.cache.enabled')) {
             return Mastery::updateOrCreate(
                 [
-                    'champion_id' => $champion->id,
-                    'summoner_id' => $summoner->id,
+                    'champion_id' => $this->champion->id,
+                    'summoner_id' => $this->summoner->id,
                 ],
                 $params
             );
         }
 
         return new Mastery($params);
+    }
+
+    protected function newMasteryCollection(array $data): Collection
+    {
+        $masteryCollection = new Collection();
+        foreach ($data as $datum) {
+            $masteryCollection->push($this->newMastery($datum));
+        }
+
+        return $masteryCollection;
     }
 }

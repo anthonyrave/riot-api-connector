@@ -6,16 +6,22 @@ use Illuminate\Support\Carbon;
 use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
 
-class SummonerAdapter
+class SummonerAdapter extends Adapter
 {
-    public static function newFromApi(array $data, Region $region): Summoner
+    public function __construct(
+        protected readonly Region $region
+    )
     {
-        $params = [
-            'region_id' => $region->id,
-            'summoner_id' => $data['id'],
-            'account_id' => $data['accountId'],
-            'puuid' => $data['puuid'],
-            'name' => $data['name'],
+    }
+
+    public function newFromApi(array $data): Summoner
+    {
+        $attributes = [
+            'region_id' => $this->region->id,
+            'encrypted_summoner_id' => $data['id'],
+            'encrypted_account_id' => $data['accountId'],
+            'encrypted_puuid' => $data['puuid'],
+            'summoner_name' => $data['name'],
             'profile_icon_id' => $data['profileIconId'],
             'revision_date' => Carbon::createFromTimestamp(substr($data['revisionDate'], 0, 10)),
             'summoner_level' => $data['summonerLevel'],
@@ -24,13 +30,13 @@ class SummonerAdapter
         if (config('riot_api_connector.cache.enabled')) {
             return Summoner::updateOrCreate(
                 [
-                    'region_id' => $region->id,
-                    'name' => $data['name'],
+                    'region_id' => $this->region->id,
+                    'summoner_name' => $data['name'],
                 ],
-                $params
+                $attributes
             );
         }
 
-        return new Summoner($params);
+        return new Summoner($attributes);
     }
 }

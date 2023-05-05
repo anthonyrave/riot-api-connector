@@ -5,30 +5,27 @@ namespace RiotApiConnector;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use RiotApiConnector\Contracts\RiotApiFactory;
 use RiotApiConnector\Models\Mastery;
-use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
-use RiotApiConnector\Repositories\MasteryRepository;
-use RiotApiConnector\Repositories\SummonerRepository;
+use RiotApiConnector\Repositories\Repository;
 
 class RiotApi implements RiotApiFactory
 {
     /**
-     * @param Region $region
-     * @return SummonerRepository
+     * @return Repository
      * @throws BindingResolutionException
      */
-    public static function summoner(Region $region): SummonerRepository
+    public static function summoner(): Repository
     {
-        return Summoner::repository($region);
+        return Summoner::repository();
     }
 
     /**
      * @param Summoner $summoner
-     * @return MasteryRepository
+     * @return Repository
      * @throws BindingResolutionException
      */
-    public static function mastery(Summoner $summoner): MasteryRepository
+    public static function mastery(Summoner $summoner): Repository
     {
-        return Mastery::repository($summoner);
+        return Mastery::repository(['summoner' => $summoner]);
     }
 }

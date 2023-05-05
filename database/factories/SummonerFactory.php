@@ -14,10 +14,10 @@ class SummonerFactory extends Factory
     {
         return [
             'region_id' => Region::factory(),
-            'summoner_id' => fake()->randomAscii(),
-            'account_id' => fake()->randomAscii(),
-            'puuid' => fake()->randomAscii(),
-            'name' => fake()->userName(),
+            'encrypted_summoner_id' => fake()->randomAscii(),
+            'encrypted_account_id' => fake()->randomAscii(),
+            'encrypted_puuid' => fake()->randomAscii(),
+            'summoner_name' => fake()->userName(),
             'profile_icon_id' => fake()->randomNumber(3),
             'revision_date' => fake()->dateTime(),
             'summoner_level' => fake()->randomNumber(4),

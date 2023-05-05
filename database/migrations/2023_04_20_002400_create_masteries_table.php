@@ -27,7 +27,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('tokens_earned');
             $table->timestamps();
 
-            $table->unique('champion_id', 'summoner_id');
+            $table->unique(['champion_id', 'summoner_id']);
         });
     }
 

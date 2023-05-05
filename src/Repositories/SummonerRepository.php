@@ -24,7 +24,7 @@ class SummonerRepository extends Repository
     {
         $this->request->endpoint = config('riot.endpoints.summoner.by_puuid');
         $this->request->url_params = [
-            'encryptedPUUID' => $puuid,
+            'encryptedPuuid' => $puuid,
         ];
 
         $this->query->where('puuid', $puuid);

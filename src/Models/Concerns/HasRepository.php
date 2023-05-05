@@ -18,7 +18,7 @@ trait HasRepository
      */
     public static function repository(...$params): Repository
     {
-        return static::newRepository(...$params) ?: Repository::repositoryForModel(get_called_class());
+        return static::newRepository(...$params) ?: Repository::repositoryForModel(get_called_class(), ...$params);
     }
 
     /**

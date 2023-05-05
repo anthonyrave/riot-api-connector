@@ -4,14 +4,12 @@ namespace RiotApiConnector\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use RiotApiConnector\Contracts\RiotApiFactory;
-use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
-use RiotApiConnector\Repositories\MasteryRepository;
-use RiotApiConnector\Repositories\SummonerRepository;
+use RiotApiConnector\Repositories\Repository;
 
 /**
- * @method SummonerRepository summoner(Region $region)
- * @method MasteryRepository mastery(Summoner $summoner)
+ * @method Repository summoner()
+ * @method Repository mastery(Summoner $summoner)
  */
 class RiotApi extends Facade
 {

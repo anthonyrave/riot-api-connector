@@ -63,20 +63,20 @@ return [
 
     'endpoints' => [
         'summoner' => [
-            'by_id' => '/lol/summoner/v4/summoners/{encryptedSummonerId}',
-            'by_puuid' => '/lol/summoner/v4/summoners/by-puuid/{encryptedPUUID}',
-            'by_name' => '/lol/summoner/v4/summoners/by-name/{summonerName}',
-            'by_account_id' => '/lol/summoner/v4/summoners/by-account/{encryptedAccountId}',
+            'by_encrypted_summoner_id' => '/lol/summoner/v4/summoners/{encryptedSummonerId}',
+            'by_encrypted_puuid' => '/lol/summoner/v4/summoners/by-puuid/{encryptedPuuid}',
+            'by_summoner_name' => '/lol/summoner/v4/summoners/by-name/{summonerName}',
+            'by_encrypted_account_id' => '/lol/summoner/v4/summoners/by-account/{encryptedAccountId}',
+        ],
+        'mastery' => [
+            'by_champion' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/by-champion/{championId}',
+            'default' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}',
+            'top' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/top',
         ],
         'match' => [
             'by_id' => '/lol/match/v5/matches/{matchId}',
             'by_puuid' => '/lol/match/v5/matches/by-puuid/{puuid}/ids',
             'timeline' => '/lol/match/v5/matches/{matchId}/timeline',
-        ],
-        'mastery' => [
-            'default' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}',
-            'top' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/top',
-            'by_champion' => '/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/by-champion/{championId}',
         ],
     ],
 

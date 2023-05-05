@@ -14,16 +14,16 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->string('summoner_id')->unique();
-            $table->string('account_id')->unique();
-            $table->string('puuid')->unique();
-            $table->string('name');
+            $table->string('encrypted_summoner_id')->unique();
+            $table->string('encrypted_account_id')->unique();
+            $table->string('encrypted_puuid')->unique();
+            $table->string('summoner_name');
             $table->integer('profile_icon_id');
             $table->timestamp('revision_date');
             $table->integer('summoner_level');
             $table->timestamps();
 
-            $table->unique('region_id', 'name');
+            $table->unique(['region_id', 'summoner_name']);
         });
     }
 

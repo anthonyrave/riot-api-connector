@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Http;
 use RiotApiConnector\Exceptions\InvalidApiKeyException;
 use RiotApiConnector\Models\Region;
 
-// TODO Handle Request exceptions and add hints (API Token...)
 class PendingRequest
 {
     public string $endpoint;
@@ -33,7 +32,7 @@ class PendingRequest
             return $response->throw()->json();
         } catch (RequestException $e) {
             if ($response->status() === 403) {
-                throw new InvalidApiKeyException('Your API Key is invalid. Please check if it has expired.', 403);
+                throw new InvalidApiKeyException();
             }
             throw $e;
         }

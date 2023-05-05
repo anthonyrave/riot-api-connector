@@ -4,18 +4,16 @@ namespace RiotApiConnector\Models;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use RiotApiConnector\Adapters\Adapter;
+use RiotApiConnector\Adapters\MasteryAdapter;
+use RiotApiConnector\Database\Eloquent\ApiModel;
 use RiotApiConnector\Models\Champion\Champion;
-use RiotApiConnector\Models\Concerns\Fetchable;
-use RiotApiConnector\Models\Concerns\HasRepository;
 use RiotApiConnector\Repositories\MasteryRepository;
 
-class Mastery extends Model
+class Mastery extends ApiModel
 {
     use HasFactory;
-    use HasRepository;
-    use Fetchable;
 
     /**
      * @var array<int, string>
@@ -36,13 +34,15 @@ class Mastery extends Model
     }
 
     /**
-     * @param Summoner $summoner
+     * @param array $params
      * @return MasteryRepository<static>
      *
      * @throws BindingResolutionException
      */
-    public static function newRepository(Summoner $summoner): MasteryRepository
+    public static function newRepository(array $params = []): MasteryRepository
     {
-        return MasteryRepository::new()->region(region: $summoner->region, useInQuery: false)->summoner(summoner: $summoner);
+        return MasteryRepository::new()
+            ->region(region: $params['summoner']->region, useInQuery: false)
+            ->summoner($params['summoner']);
     }
 }

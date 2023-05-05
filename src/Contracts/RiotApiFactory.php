@@ -2,14 +2,12 @@
 
 namespace RiotApiConnector\Contracts;
 
-use RiotApiConnector\Models\Region;
 use RiotApiConnector\Models\Summoner;
-use RiotApiConnector\Repositories\MasteryRepository;
-use RiotApiConnector\Repositories\SummonerRepository;
+use RiotApiConnector\Repositories\Repository;
 
 interface RiotApiFactory
 {
-    public static function summoner(Region $region): SummonerRepository;
+    public static function summoner(): Repository;
 
-    public static function mastery(Summoner $summoner): MasteryRepository;
+    public static function mastery(Summoner $summoner): Repository;
 }
