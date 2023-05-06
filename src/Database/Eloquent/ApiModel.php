@@ -5,10 +5,12 @@ namespace RiotApiConnector\Database\Eloquent;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use RiotApiConnector\Adapters\Adapter;
 use RiotApiConnector\Database\Eloquent\Relations\HasManyFromApi;
+use RiotApiConnector\Database\Eloquent\Relations\HasOneFromApi;
 use RiotApiConnector\Http\Requests\PendingRequest;
 use RiotApiConnector\Models\Concerns\Fetchable;
 use RiotApiConnector\Repositories\Repository;
@@ -137,5 +139,36 @@ abstract class ApiModel extends Model
     protected function newHasManyFromApi(ApiBuilder $query, Model $parent, string $foreignKey, string $localKey): HasManyFromApi
     {
         return new HasManyFromApi($query, $parent, $foreignKey, $localKey);
+    }
+
+    /**
+     * @param string $related
+     * @param string|null $foreignKey
+     * @param string|null $localKey
+     * @return HasOne|HasOneFromApi
+     */
+    public function hasOneFromApi(string $related, string $foreignKey = null, string $localKey = null): HasOne|HasOneFromApi
+    {
+        $instance = $this->newRelatedInstance($related);
+
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+
+        $localKey = $localKey ?: $this->getKeyName();
+
+        return $this->newHasOneFromApi($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
+    }
+
+    /**
+     * Instantiate a new HasOne relationship.
+     *
+     * @param ApiBuilder $query
+     * @param Model $parent
+     * @param string $foreignKey
+     * @param string $localKey
+     * @return HasOne|HasOneFromApi
+     */
+    protected function newHasOneFromApi(ApiBuilder $query, Model $parent, string $foreignKey, string $localKey): HasOne|HasOneFromApi
+    {
+        return new HasOneFromApi($query, $parent, $foreignKey, $localKey);
     }
 }

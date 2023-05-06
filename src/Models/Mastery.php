@@ -5,8 +5,6 @@ namespace RiotApiConnector\Models;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use RiotApiConnector\Adapters\Adapter;
-use RiotApiConnector\Adapters\MasteryAdapter;
 use RiotApiConnector\Database\Eloquent\ApiModel;
 use RiotApiConnector\Models\Champion\Champion;
 use RiotApiConnector\Repositories\MasteryRepository;

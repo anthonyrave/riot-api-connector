@@ -3,19 +3,12 @@
 namespace RiotApiConnector\Models;
 
 use Database\Factories\SummonerFactory;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use RiotApiConnector\Database\Eloquent\ApiModel;
-use RiotApiConnector\Models\Concerns\Fetchable;
+use RiotApiConnector\Database\Eloquent\Relations\HasManyFromApi;
 use RiotApiConnector\Models\Concerns\HasRegionDependency;
-use RiotApiConnector\Models\Concerns\HasRepository;
-use RiotApiConnector\Repositories\Repository;
-use RiotApiConnector\Repositories\SummonerRepository;
 
 /**
  * @property int $id
@@ -26,7 +19,9 @@ use RiotApiConnector\Repositories\SummonerRepository;
  * @property int profile_icon_id
  * @property int revision_date
  * @property Collection $masteries
+ * @property Collection $ranks
  * @method Builder whereSummonerName(string $summonerName)
+ * @method Builder whereEncryptedSummonerId(string $encryptedSummonerId)
  */
 class Summoner extends ApiModel
 {
@@ -46,7 +41,12 @@ class Summoner extends ApiModel
         return SummonerFactory::new();
     }
 
-    public function masteries(): HasMany
+    public function ranks(): HasManyFromApi
+    {
+        return $this->hasManyFromApi(Rank::class);
+    }
+
+    public function masteries(): HasManyFromApi
     {
         return $this->hasManyFromApi(Mastery::class);
     }

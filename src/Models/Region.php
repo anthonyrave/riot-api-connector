@@ -19,9 +19,7 @@ class Region extends Model
     /**
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-    ];
+    protected $fillable = ['name'];
 
     protected static function newFactory(): RegionFactory
     {

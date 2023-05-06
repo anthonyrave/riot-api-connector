@@ -78,6 +78,9 @@ return [
             'by_puuid' => '/lol/match/v5/matches/by-puuid/{puuid}/ids',
             'timeline' => '/lol/match/v5/matches/{matchId}/timeline',
         ],
+        'rank' => [
+            'default' => '/lol/league/v4/entries/by-summoner/{encryptedSummonerId}'
+        ]
     ],
 
     /*
